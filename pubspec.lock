@@ -76,10 +76,11 @@ packages:
   dart_dependency_checker:
     dependency: "direct main"
     description:
-      path: "/Users/albert.kaiser/Dev/github/dart_dependency_checker"
-      relative: false
-    source: path
-    version: "0.1.2"
+      name: dart_dependency_checker
+      sha256: e3685da758e2a0a44156e6c739ad6b2fc0b9ef7b184a32ab2e18c673bd365ee9
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.3"
   equatable:
     dependency: transitive
     description:
