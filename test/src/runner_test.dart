@@ -5,12 +5,16 @@ import 'package:test/test.dart';
 import '_paths.dart';
 
 void main() {
-  test('gives 1 as result when unknown flag provided', () async {
-    expect(await run(const ['-q']), 1);
+  test('gives 64 as result when unknown flag provided', () async {
+    expect(await run(const ['-q']), 64);
   });
 
-  test('gives null as result when known flag provided', () async {
+  test('gives null as result when known -h provided', () async {
     expect(await run(const ['-h']), isNull);
+  });
+
+  test('gives null as result when known --version provided', () async {
+    expect(await run(const ['--version']), isNull);
   });
 
   test('gives null as result when no command provided', () async {

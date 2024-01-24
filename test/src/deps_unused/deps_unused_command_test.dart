@@ -2,104 +2,166 @@ import 'package:dart_dependency_checker_cli/src/deps_unused/deps_unused_command.
 import 'package:test/test.dart';
 
 void main() {
+  final tested = DepsUnusedCommand();
+
   test('has expected name', () {
-    expect(
-      DepsUnusedCommand().name,
-      'deps-unused',
-    );
+    expect(tested.name, 'deps-unused');
   });
 
   test('has expected description', () {
     expect(
-      DepsUnusedCommand().description,
+      tested.description,
       'Checks and fixes unused dependencies.',
     );
   });
 
   group('arg parser', () {
+    final argParser = tested.argParser;
+
     test('has all expected options', () {
       expect(
-        DepsUnusedCommand().argParser.options.keys,
+        argParser.options.keys,
         ['help', 'path', 'dev-ignores', 'main-ignores', 'fix'],
       );
     });
 
-    test('parses -h', () {
+    test('explodes on unknown flag', () {
       expect(
-        DepsUnusedCommand().argParser.parse(['-h']).wasParsed('help'),
-        isTrue,
-      );
-    });
-
-    test('parses -p', () {
-      expect(
-        DepsUnusedCommand().argParser.parse(['-p', '.']).wasParsed('path'),
-        isTrue,
-      );
-    });
-
-    test('explodes on missing -p value', () {
-      expect(
-        () => DepsUnusedCommand().argParser.parse(['-p']),
+        () => argParser.parse(['-g']),
         throwsA(
           isA<FormatException>().having(
             (exception) => exception.message,
             'message',
-            'Missing argument for "path".',
+            'Could not find an option or flag "-g".',
           ),
         ),
       );
     });
 
-    test('parses --dev-ignores', () {
-      expect(
-        DepsUnusedCommand()
-            .argParser
-            .parse(['--dev-ignores', 'meta']).wasParsed('dev-ignores'),
-        isTrue,
-      );
+    group('help', () {
+      test('not parsing -h when not provided', () {
+        expect(
+          argParser.parse(const []).wasParsed('help'),
+          isFalse,
+        );
+      });
+
+      test('parses -h', () {
+        expect(
+          argParser.parse(['-h']).wasParsed('help'),
+          isTrue,
+        );
+      });
     });
 
-    test('explodes on missing --dev-ignores value', () {
-      expect(
-        () => DepsUnusedCommand().argParser.parse(['--dev-ignores']),
-        throwsA(
-          isA<FormatException>().having(
-            (exception) => exception.message,
-            'message',
-            'Missing argument for "dev-ignores".',
+    group('path', () {
+      test('not parsing -p when not provided', () {
+        expect(
+          argParser.parse(const []).wasParsed('path'),
+          isFalse,
+        );
+      });
+
+      test('explodes on missing -p value', () {
+        expect(
+          () => argParser.parse(const ['-p']),
+          throwsA(
+            isA<FormatException>().having(
+              (exception) => exception.message,
+              'message',
+              'Missing argument for "path".',
+            ),
           ),
-        ),
-      );
+        );
+      });
+
+      test('parses -p value', () {
+        expect(
+          argParser.parse(const ['-p', 'some/path'])['path'],
+          'some/path',
+        );
+      });
     });
 
-    test('parses --main-ignores', () {
-      expect(
-        DepsUnusedCommand()
-            .argParser
-            .parse(['--main-ignores', 'meta']).wasParsed('main-ignores'),
-        isTrue,
-      );
-    });
+    group('dev-ignores', () {
+      test('not parsing --dev-ignores when not provided', () {
+        expect(
+          argParser.parse(const []).wasParsed('dev-ignores'),
+          isFalse,
+        );
+      });
 
-    test('explodes on missing --main-ignores value', () {
-      expect(
-        () => DepsUnusedCommand().argParser.parse(['--main-ignores']),
-        throwsA(
-          isA<FormatException>().having(
-            (exception) => exception.message,
-            'message',
-            'Missing argument for "main-ignores".',
+      test('explodes on missing --dev-ignores value', () {
+        expect(
+          () => argParser.parse(['--dev-ignores']),
+          throwsA(
+            isA<FormatException>().having(
+              (exception) => exception.message,
+              'message',
+              'Missing argument for "dev-ignores".',
+            ),
           ),
-        ),
-      );
+        );
+      });
+
+      test('parses --dev-ignores values', () {
+        expect(
+          argParser.parse(const ['--dev-ignores', 'a,b'])['dev-ignores'],
+          const ['a', 'b'],
+        );
+      });
     });
 
-    test('parses --fix', () {
-      expect(
-        DepsUnusedCommand().argParser.parse(['--fix']).wasParsed('fix'),
-        isTrue,
-      );
+    group('main-ignores', () {
+      test('not parsing --main-ignores when not provided', () {
+        expect(
+          argParser.parse(const []).wasParsed('main-ignores'),
+          isFalse,
+        );
+      });
+
+      test('explodes on missing --main-ignores value', () {
+        expect(
+          () => argParser.parse(['--main-ignores']),
+          throwsA(
+            isA<FormatException>().having(
+              (exception) => exception.message,
+              'message',
+              'Missing argument for "main-ignores".',
+            ),
+          ),
+        );
+      });
+
+      test('parses --main-ignores values', () {
+        expect(
+          argParser.parse(const ['--main-ignores', 'a,b'])['main-ignores'],
+          const ['a', 'b'],
+        );
+      });
+    });
+
+    group('fix', () {
+      test('not parsing --fix when not provided', () {
+        expect(
+          argParser.parse(const []).wasParsed('fix'),
+          isFalse,
+        );
+      });
+
+      test('parses --fix as true value', () {
+        expect(
+          argParser.parse(['--fix'])['fix'],
+          isTrue,
+        );
+      });
+
+      test('parses --no-fix as false value', () {
+        expect(
+          argParser.parse(['--no-fix'])['fix'],
+          isFalse,
+        );
+      });
     });
   });
 }
