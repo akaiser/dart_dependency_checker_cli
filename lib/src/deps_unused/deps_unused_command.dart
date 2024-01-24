@@ -19,6 +19,7 @@ class DepsUnusedCommand extends Command<int> {
       ..addOption(
         _pathOption,
         abbr: _pathOption[0],
+        valueHelp: 'path',
         help: 'Path to valid pubspec.yaml.',
       )
       ..addMultiOption(
@@ -31,7 +32,6 @@ class DepsUnusedCommand extends Command<int> {
       )
       ..addFlag(
         _fixFlag,
-        negatable: false,
         help: 'Instant cleanup after checker run.',
       );
   }

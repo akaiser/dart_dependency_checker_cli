@@ -1,16 +1,18 @@
-import 'package:args/command_runner.dart';
-import 'package:dart_dependency_checker_cli/src/deps_unused/deps_unused_command.dart';
+import 'package:args/command_runner.dart' show UsageException;
+import 'package:dart_dependency_checker_cli/src/command_runner.dart';
+import 'package:dart_dependency_checker_cli/src/util/version.dart';
 
 Future<int?> run(List<String> args) async {
   try {
-    final runner = CommandRunner<int>(
-      'ddc',
-      'A utility package for checking dependencies within Dart/Flutter packages.',
-    )..addCommand(DepsUnusedCommand());
-
-    return (runner..parse(args)).run(args);
-  } catch (e) {
+    final runner = CommandRunner();
+    final results = runner.parse(args);
+    if (results.wasParsed(versionFlag)) {
+      print('ddc v$packageVersion');
+      return null;
+    }
+    return runner.run(args);
+  } on UsageException catch (e) {
     print(e);
-    return 1;
+    return 64;
   }
 }

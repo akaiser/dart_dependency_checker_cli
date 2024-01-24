@@ -1,3 +1,7 @@
+## 0.1.5
+
+- Add `--version` flag.
+
 ## 0.1.4
 
 - Remove library directive and update example styling.
