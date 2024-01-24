@@ -23,5 +23,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-dart
       - run: dart pub get
-      - run: dart run build_runner build
+      - run: dart run build_runner build --delete-conflicting-outputs
       - run: dart test
