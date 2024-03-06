@@ -1,3 +1,8 @@
+## 0.1.6
+
+- Raise DDC version to `^0.1.4`. // TODO
+- Require Dart `^3.3.0`.
+
 ## 0.1.5
 
 - Add `--version` flag.
