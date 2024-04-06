@@ -10,4 +10,5 @@ Run:
 
 ```bash
 ddc deps-unused -p /some/package --dev-ignores lints,build_runner
+ddc transitive-use -p /some/package --main-ignores async,meta
 ```

@@ -1,7 +1,7 @@
 name: dart_dependency_checker_cli
 description: A command-line utility for checking dependencies within Dart/Flutter packages.
 repository: https://github.com/akaiser/dart_dependency_checker_cli
-version: 0.1.6
+version: 0.1.7
 
 executables:
   dart_dependency_checker:
