@@ -18,7 +18,7 @@ class DepsUnusedChecker extends lib.DepsUnusedChecker with CheckWithExitMixin {
         final messagePrefix = params.fix ? 'Fixed' : 'Found';
         logger.warn('== $messagePrefix unused packages ==');
         logger.warn('Path: ${params.path}/pubspec.yaml');
-        _printDependencies('Dependencies', results.dependencies);
+        _printDependencies('Dependencies', results.mainDependencies);
         _printDependencies('Dev Dependencies', results.devDependencies);
         return 1;
       }
