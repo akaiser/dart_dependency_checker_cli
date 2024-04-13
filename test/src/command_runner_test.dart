@@ -21,20 +21,20 @@ void main() {
     test('has all expected options', () {
       expect(
         argParser.options.keys,
-        ['help', 'version'],
+        const ['help', 'version'],
       );
     });
 
     test('has all expected commands', () {
       expect(
         argParser.commands.keys,
-        ['help', 'deps-unused'],
+        const ['help', 'deps-unused', 'transitive-use'],
       );
     });
 
     test('explodes on unknown flag', () {
       expect(
-        () => argParser.parse(['-g']),
+        () => argParser.parse(const ['-g']),
         throwsA(
           isA<FormatException>().having(
             (exception) => exception.message,
@@ -55,7 +55,7 @@ void main() {
 
       test('parses -h', () {
         expect(
-          argParser.parse(['-h']).wasParsed('help'),
+          argParser.parse(const ['-h']).wasParsed('help'),
           isTrue,
         );
       });
@@ -71,7 +71,7 @@ void main() {
 
       test('parses --version', () {
         expect(
-          argParser.parse(['--version']).wasParsed('version'),
+          argParser.parse(const ['--version']).wasParsed('version'),
           isTrue,
         );
       });

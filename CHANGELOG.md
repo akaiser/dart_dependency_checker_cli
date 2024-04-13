@@ -1,6 +1,7 @@
 ## 0.1.7
 
-- Add `transitive-use` command. // TODO
+- Raise DDC version to `^0.1.5`.
+- Add `transitive-use` command.
 
 ## 0.1.6
 

@@ -14,6 +14,7 @@ Run:
 
 ```bash
 ddc deps-unused -p /some/package --dev-ignores lints,build_runner
+ddc transitive-use -p /some/package --main-ignores async,meta
 ```
 
 Or even:
@@ -32,7 +33,6 @@ for d in */ ; do (cd $d && ddc deps-unused); done;
 ## Future roadmap
 
 - Command `dep-origin`: Utilize `dart pub deps -s compact --no-dev` to extract the origin of a direct/transitive dependency.
-- Command `transitive-use`: Direct use of undeclared/transitive dependencies.
 
 ## License
 

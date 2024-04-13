@@ -4,8 +4,9 @@ import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
 import 'package:dart_dependency_checker_cli/src/_shared/check_mixin.dart';
 import 'package:dart_dependency_checker_cli/src/util/logger.dart';
 
-class DepsUnusedChecker extends lib.DepsUnusedChecker with CheckWithExitMixin {
-  const DepsUnusedChecker(super.params, [this.logger = const Logger()]);
+class TransitiveUseChecker extends lib.TransitiveUseChecker
+    with CheckWithExitMixin {
+  const TransitiveUseChecker(super.params, [this.logger = const Logger()]);
 
   final Logger logger;
 
@@ -15,8 +16,7 @@ class DepsUnusedChecker extends lib.DepsUnusedChecker with CheckWithExitMixin {
       final results = check();
 
       if (!results.isEmpty) {
-        final messagePrefix = params.fix ? 'Fixed' : 'Found';
-        logger.warn('== $messagePrefix unused packages ==');
+        logger.warn('== Found undeclared/transitive packages ==');
         logger.warn('Path: ${params.path}/pubspec.yaml');
         _printDependencies('Dependencies', results.mainDependencies);
         _printDependencies('Dev Dependencies', results.devDependencies);

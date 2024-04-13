@@ -1,5 +1,6 @@
 const //
     allSourcesDirsPath = 'test/resources/samples/all_sources_dirs',
+    allSourcesDirsMultiPath = 'test/resources/samples/all_sources_dirs_multi',
     emptyYamlPath = 'test/resources/samples/empty_yaml',
     meantForFixingPath = 'test/resources/samples/meant_for_fixing',
     noDependenciesPath = 'test/resources/samples/no_dependencies',
