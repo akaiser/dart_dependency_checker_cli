@@ -1,17 +1,17 @@
-import 'package:dart_dependency_checker_cli/src/deps_unused/deps_unused_command.dart';
+import 'package:dart_dependency_checker_cli/src/transitive_use/transitive_use_command.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final tested = DepsUnusedCommand();
+  final tested = TransitiveUseCommand();
 
   test('has expected name', () {
-    expect(tested.name, 'deps-unused');
+    expect(tested.name, 'transitive-use');
   });
 
   test('has expected description', () {
     expect(
       tested.description,
-      'Checks and fixes unused dependencies.',
+      'Checks direct use of undeclared/transitive dependencies',
     );
   });
 
@@ -21,7 +21,7 @@ void main() {
     test('has all expected options', () {
       expect(
         argParser.options.keys,
-        const ['help', 'path', 'main-ignores', 'dev-ignores', 'fix'],
+        const ['help', 'path', 'main-ignores', 'dev-ignores'],
       );
     });
 
@@ -137,29 +137,6 @@ void main() {
         expect(
           argParser.parse(const ['--dev-ignores', 'a,b'])['dev-ignores'],
           const ['a', 'b'],
-        );
-      });
-    });
-
-    group('fix', () {
-      test('not parsing --fix when not provided', () {
-        expect(
-          argParser.parse(const []).wasParsed('fix'),
-          isFalse,
-        );
-      });
-
-      test('parses --fix as true value', () {
-        expect(
-          argParser.parse(['--fix'])['fix'],
-          isTrue,
-        );
-      });
-
-      test('parses --no-fix as false value', () {
-        expect(
-          argParser.parse(const ['--no-fix'])['fix'],
-          isFalse,
         );
       });
     });
