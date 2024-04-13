@@ -1,3 +1,7 @@
+## 0.1.8
+
+- Raise DDC version to `^0.1.5` for real.
+
 ## 0.1.7
 
 - Raise DDC version to `^0.1.5`.
