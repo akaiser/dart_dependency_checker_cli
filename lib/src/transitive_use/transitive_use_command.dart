@@ -1,13 +1,14 @@
 import 'package:args/command_runner.dart';
 import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
-import 'package:dart_dependency_checker_cli/src/_shared/command_mixin.dart';
+import 'package:dart_dependency_checker_cli/src/_shared/args_ext.dart';
 import 'package:dart_dependency_checker_cli/src/transitive_use/transitive_use_checker.dart';
 
-class TransitiveUseCommand extends Command<int> with CommandMixin {
+class TransitiveUseCommand extends Command<int> {
   TransitiveUseCommand() {
-    withPathOption(argParser);
-    withMainIgnoresOption(argParser);
-    withDevIgnoresOption(argParser);
+    argParser
+      ..withPathOption
+      ..withMainIgnoresOption
+      ..withDevIgnoresOption;
   }
 
   @override
@@ -18,11 +19,10 @@ class TransitiveUseCommand extends Command<int> with CommandMixin {
 
   @override
   int run() {
-    final argResults = this.argResults;
     final params = lib.TransitiveUseParams(
-      path: resolvePathOption(argResults),
-      mainIgnores: resolveMainIgnoresOption(argResults),
-      devIgnores: resolveDevIgnoresOption(argResults),
+      path: argResults.path,
+      mainIgnores: argResults.mainIgnores,
+      devIgnores: argResults.devIgnores,
     );
 
     return TransitiveUseChecker(params).checkWithExit();
