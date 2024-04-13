@@ -7,8 +7,8 @@ class TransitiveUseCommand extends Command<int> {
   TransitiveUseCommand() {
     argParser
       ..withPathOption
-      ..withMainIgnoresOption
-      ..withDevIgnoresOption;
+      ..withMainIgnoresMultiOption
+      ..withDevIgnoresMultiOption;
   }
 
   @override

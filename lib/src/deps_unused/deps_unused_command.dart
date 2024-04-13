@@ -7,8 +7,8 @@ class DepsUnusedCommand extends Command<int> {
   DepsUnusedCommand() {
     argParser
       ..withPathOption
-      ..withMainIgnoresOption
-      ..withDevIgnoresOption
+      ..withMainIgnoresMultiOption
+      ..withDevIgnoresMultiOption
       ..withFixFlag;
   }
 
