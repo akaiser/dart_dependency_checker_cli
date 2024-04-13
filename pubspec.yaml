@@ -17,7 +17,7 @@ environment:
 
 dependencies:
   args: ^2.5.0
-  dart_dependency_checker: ^0.1.4
+  dart_dependency_checker: ^0.1.5
   yaansi: ^0.9.1
   yaml: ^3.1.2
 
