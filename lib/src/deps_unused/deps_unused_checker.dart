@@ -1,42 +1,47 @@
-import 'dart:io';
-
 import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
+import 'package:dart_dependency_checker_cli/src/_logger/log_params.dart';
+import 'package:dart_dependency_checker_cli/src/_logger/results_logger.dart';
+import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
 import 'package:dart_dependency_checker_cli/src/_shared/check_mixin.dart';
-import 'package:dart_dependency_checker_cli/src/util/logger.dart';
 
-class DepsUnusedChecker extends lib.DepsUnusedChecker with CheckWithExitMixin {
-  const DepsUnusedChecker(super.params, [this.logger = const Logger()]);
+class DepsUnusedChecker extends lib.DepsUnusedChecker with CheckerMixin {
+  const DepsUnusedChecker(
+    super.params, {
+    required this.jsonOutput,
+    this.logger = const ResultsLogger(),
+  });
 
-  final Logger logger;
+  final ResultsLogger logger;
+  final bool jsonOutput;
 
   @override
   int checkWithExit() {
+    late final LogParams logParams;
+    final path = params.path;
+
     try {
-      final results = check();
+      final results = super.check();
 
-      if (!results.isEmpty) {
-        final messagePrefix = params.fix ? 'Fixed' : 'Found';
-        logger.warn('== $messagePrefix unused packages ==');
-        logger.warn('Path: ${params.path}/pubspec.yaml');
-        _printDependencies('Dependencies', results.mainDependencies);
-        _printDependencies('Dev Dependencies', results.devDependencies);
-        return 1;
-      }
+      logParams = results.isEmpty
+          ? LogParams(
+              ResultsStatus.clear,
+              path,
+              message: 'All clear!',
+            )
+          : LogParams(
+              params.fix ? ResultsStatus.clear : ResultsStatus.warning,
+              path,
+              message: '${params.fix ? 'Fixed' : 'Found'} unused packages',
+              results: results,
+            );
     } on lib.CheckerError catch (e) {
-      logger.error(e.message);
-      return 2;
+      logParams = LogParams(
+        ResultsStatus.error,
+        path,
+        error: e.message,
+      );
     }
 
-    logger.info('All clear!');
-    return exitCode;
-  }
-
-  void _printDependencies(String label, Set<String> dependencies) {
-    if (dependencies.isNotEmpty) {
-      logger.warn('$label:');
-      for (final dependency in dependencies) {
-        logger.warn('  - $dependency');
-      }
-    }
+    return logger.logWithExit(logParams, jsonOutput);
   }
 }

@@ -8,7 +8,8 @@ class TransitiveUseCommand extends Command<int> {
     argParser
       ..withPathOption
       ..withMainIgnoresMultiOption
-      ..withDevIgnoresMultiOption;
+      ..withDevIgnoresMultiOption
+      ..withJsonFlag;
   }
 
   @override
@@ -25,6 +26,6 @@ class TransitiveUseCommand extends Command<int> {
       devIgnores: argResults.devIgnores,
     );
 
-    return TransitiveUseChecker(params).checkWithExit();
+    return TransitiveUseChecker(params, jsonOutput: argResults.json).checkWithExit();
   }
 }

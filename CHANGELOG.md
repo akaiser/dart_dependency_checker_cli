@@ -1,3 +1,7 @@
+## 0.2.0
+
+- Add `--json` output flag.
+
 ## 0.1.8
 
 - Raise DDC version to `^0.1.5` for real.

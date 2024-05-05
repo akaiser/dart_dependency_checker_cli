@@ -9,7 +9,8 @@ class DepsUnusedCommand extends Command<int> {
       ..withPathOption
       ..withMainIgnoresMultiOption
       ..withDevIgnoresMultiOption
-      ..withFixFlag;
+      ..withFixFlag
+      ..withJsonFlag;
   }
 
   @override
@@ -27,6 +28,6 @@ class DepsUnusedCommand extends Command<int> {
       fix: argResults.fix,
     );
 
-    return DepsUnusedChecker(params).checkWithExit();
+    return DepsUnusedChecker(params, jsonOutput: argResults.json).checkWithExit();
   }
 }

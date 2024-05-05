@@ -23,6 +23,9 @@ Or even:
 # With instant fix
 ddc deps-unused -p /some/package --fix
 
+# Json as output
+ddc deps-unused -p /some/package --json
+
 # In a wild mono repo environment
 melos exec -c1 -- ddc deps-unused
 

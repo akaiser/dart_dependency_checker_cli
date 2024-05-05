@@ -1,3 +1,3 @@
-mixin CheckWithExitMixin {
+mixin CheckerMixin {
   int checkWithExit();
 }
