@@ -8,7 +8,8 @@ class TransitiveUseCommand extends Command<int> {
     argParser
       ..withPathOption
       ..withMainIgnoresMultiOption
-      ..withDevIgnoresMultiOption;
+      ..withDevIgnoresMultiOption
+      ..withJsonFlag;
   }
 
   @override
@@ -18,13 +19,12 @@ class TransitiveUseCommand extends Command<int> {
   final description = 'Checks direct use of undeclared/transitive dependencies';
 
   @override
-  int run() {
-    final params = lib.TransitiveUseParams(
-      path: argResults.path,
-      mainIgnores: argResults.mainIgnores,
-      devIgnores: argResults.devIgnores,
-    );
-
-    return TransitiveUseChecker(params).checkWithExit();
-  }
+  int run() => TransitiveUseChecker(
+        lib.TransitiveUseParams(
+          path: argResults.path,
+          mainIgnores: argResults.mainIgnores,
+          devIgnores: argResults.devIgnores,
+        ),
+        jsonOutput: argResults.json,
+      ).checkWithExit();
 }

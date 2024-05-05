@@ -8,7 +8,8 @@ const // options
     _devIgnores = 'dev-ignores';
 
 const // flags
-    _fix = 'fix';
+    _fix = 'fix',
+    _json = 'json';
 
 extension ArgParserExt on ArgParser {
   void get withPathOption => addOption(
@@ -32,6 +33,11 @@ extension ArgParserExt on ArgParser {
         _fix,
         help: 'Instant cleanup after checker run.',
       );
+
+  void get withJsonFlag => addFlag(
+        _json,
+        help: 'Output in json format.',
+      );
 }
 
 extension ArgResultsExt on ArgResults? {
@@ -44,4 +50,6 @@ extension ArgResultsExt on ArgResults? {
       this?.multiOption(_devIgnores).toSet() ?? const {};
 
   bool get fix => this?.flag(_fix) ?? false;
+
+  bool get json => this?.flag(_json) ?? false;
 }

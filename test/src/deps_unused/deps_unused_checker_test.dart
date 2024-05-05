@@ -1,92 +1,107 @@
+import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
 import 'package:dart_dependency_checker/src/deps_unused/deps_unused_params.dart';
+import 'package:dart_dependency_checker_cli/src/_logger/log_params.dart';
+import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
 import 'package:dart_dependency_checker_cli/src/deps_unused/deps_unused_checker.dart';
 import 'package:test/test.dart';
 
-import '../_fake_logger.dart';
+import '../_fake_results_logger.dart';
 import '../_paths.dart';
 
 void main() {
-  late FakeLogger logger;
+  late FakeResultsLogger logger;
 
-  setUp(() => logger = FakeLogger());
+  setUp(() => logger = FakeResultsLogger());
+
+  DepsUnusedChecker tested(DepsUnusedParams params) => DepsUnusedChecker(
+        params,
+        jsonOutput: false,
+        logger: logger,
+      );
 
   test('reports error on invalid pubspec.yaml path', () {
-    final result = DepsUnusedChecker(
-      const DepsUnusedParams(path: 'unknown'),
-      logger,
-    ).checkWithExit();
+    tested(const DepsUnusedParams(path: 'unknown')).checkWithExit();
 
-    expect(result, 2);
-    expect(logger.errorMessage, '''
-Invalid pubspec.yaml file path: unknown/pubspec.yaml
-''');
+    expect(
+      logger.params,
+      const LogParams(
+        ResultsStatus.error,
+        'unknown',
+        error: 'Invalid pubspec.yaml file path: unknown/pubspec.yaml',
+      ),
+    );
   });
 
   test('reports error on invalid pubspec.yaml content', () {
-    final result = DepsUnusedChecker(
-      const DepsUnusedParams(path: emptyYamlPath),
-      logger,
-    ).checkWithExit();
+    tested(const DepsUnusedParams(path: emptyYamlPath)).checkWithExit();
 
-    expect(result, 2);
-    expect(logger.errorMessage, '''
-Invalid pubspec.yaml file contents in: $emptyYamlPath/pubspec.yaml
-''');
+    expect(
+      logger.params,
+      const LogParams(
+        ResultsStatus.error,
+        emptyYamlPath,
+        error:
+            'Invalid pubspec.yaml file contents in: $emptyYamlPath/pubspec.yaml',
+      ),
+    );
   });
 
   group('providing all_sources_dirs path', () {
     const path = allSourcesDirsPath;
 
     test('reports only unused main and dev dependencies', () {
-      final result = DepsUnusedChecker(
-        const DepsUnusedParams(path: path),
-        logger,
-      ).checkWithExit();
+      tested(const DepsUnusedParams(path: path)).checkWithExit();
 
-      expect(result, 1);
-      expect(logger.warnMessage, '''
-== Found unused packages ==
-Path: $path/pubspec.yaml
-Dependencies:
-  - meta
-Dev Dependencies:
-  - integration_test
-  - lints
-''');
+      expect(
+        logger.params,
+        const LogParams(
+          ResultsStatus.warning,
+          path,
+          message: 'Found unused packages',
+          results: lib.DepsUnusedResults(
+            mainDependencies: {'meta'},
+            devDependencies: {'integration_test', 'lints'},
+          ),
+        ),
+      );
     });
 
     test('passed ignores will not be reported', () {
-      final result = DepsUnusedChecker(
-        const DepsUnusedParams(
-          path: path,
-          devIgnores: {'integration_test'},
-        ),
-        logger,
-      ).checkWithExit();
+      const params = DepsUnusedParams(
+        path: path,
+        devIgnores: {'integration_test'},
+      );
+      tested(params).checkWithExit();
 
-      expect(result, 1);
-      expect(logger.warnMessage, '''
-== Found unused packages ==
-Path: $path/pubspec.yaml
-Dependencies:
-  - meta
-Dev Dependencies:
-  - lints
-''');
+      expect(
+        logger.params,
+        const LogParams(
+          ResultsStatus.warning,
+          path,
+          message: 'Found unused packages',
+          results: lib.DepsUnusedResults(
+            mainDependencies: {'meta'},
+            devDependencies: {'lints'},
+          ),
+        ),
+      );
     });
   });
 
   group('providing no_dependencies path', () {
-    test('reports no unused dependencies', () {
-      final result = DepsUnusedChecker(
-        const DepsUnusedParams(path: noDependenciesPath),
-        logger,
-      ).checkWithExit();
+    const path = noDependenciesPath;
 
-      expect(result, 0);
-      expect(logger.infoMessage, '''
-All clear!
-''');
+    test('reports no unused dependencies', () {
+      tested(const DepsUnusedParams(path: path)).checkWithExit();
+
+      expect(
+        logger.params,
+        const LogParams(
+          ResultsStatus.clear,
+          path,
+          message: 'All clear!',
+        ),
+      );
     });
   });
 
@@ -94,46 +109,40 @@ All clear!
     const path = noSourcesDirsPath;
 
     test('reports all declared main and dev dependencies', () {
-      final result = DepsUnusedChecker(
-        const DepsUnusedParams(path: path),
-        logger,
-      ).checkWithExit();
+      tested(const DepsUnusedParams(path: path)).checkWithExit();
 
-      expect(result, 1);
       expect(
-        logger.warnMessage,
-        '''
-== Found unused packages ==
-Path: $path/pubspec.yaml
-Dependencies:
-  - meta
-Dev Dependencies:
-  - lints
-  - test
-''',
+        logger.params,
+        const LogParams(
+          ResultsStatus.warning,
+          path,
+          message: 'Found unused packages',
+          results: lib.DepsUnusedResults(
+            mainDependencies: {'meta'},
+            devDependencies: {'lints', 'test'},
+          ),
+        ),
       );
     });
 
     test(
         'passed ignores will not be reported '
         'even if no sources were found', () {
-      final result = DepsUnusedChecker(
-        const DepsUnusedParams(
-          path: path,
-          devIgnores: {'lints', 'test'},
-        ),
-        logger,
+      tested(
+        const DepsUnusedParams(path: path, devIgnores: {'lints', 'test'}),
       ).checkWithExit();
 
-      expect(result, 1);
       expect(
-        logger.warnMessage,
-        '''
-== Found unused packages ==
-Path: $path/pubspec.yaml
-Dependencies:
-  - meta
-''',
+        logger.params,
+        const LogParams(
+          ResultsStatus.warning,
+          path,
+          message: 'Found unused packages',
+          results: lib.DepsUnusedResults(
+            mainDependencies: {'meta'},
+            devDependencies: {},
+          ),
+        ),
       );
     });
   });

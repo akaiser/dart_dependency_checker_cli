@@ -34,7 +34,7 @@ void main() {
 
     test('explodes on unknown flag', () {
       expect(
-        () => argParser.parse(const ['-g']),
+        () => argParser.parse(const {'-g'}),
         throwsA(
           isA<FormatException>().having(
             (exception) => exception.message,
@@ -48,14 +48,14 @@ void main() {
     group('help', () {
       test('not parsing -h when not provided', () {
         expect(
-          argParser.parse(const []).wasParsed('help'),
+          argParser.parse(const {}).wasParsed('help'),
           isFalse,
         );
       });
 
       test('parses -h', () {
         expect(
-          argParser.parse(const ['-h']).wasParsed('help'),
+          argParser.parse(const {'-h'}).wasParsed('help'),
           isTrue,
         );
       });
@@ -64,14 +64,14 @@ void main() {
     group('version', () {
       test('not parsing --version when not provided', () {
         expect(
-          argParser.parse(const []).wasParsed('version'),
+          argParser.parse(const {}).wasParsed('version'),
           isFalse,
         );
       });
 
       test('parses --version', () {
         expect(
-          argParser.parse(const ['--version']).wasParsed('version'),
+          argParser.parse(const {'--version'}).wasParsed('version'),
           isTrue,
         );
       });

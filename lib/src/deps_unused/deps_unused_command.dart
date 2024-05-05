@@ -9,7 +9,8 @@ class DepsUnusedCommand extends Command<int> {
       ..withPathOption
       ..withMainIgnoresMultiOption
       ..withDevIgnoresMultiOption
-      ..withFixFlag;
+      ..withFixFlag
+      ..withJsonFlag;
   }
 
   @override
@@ -19,14 +20,13 @@ class DepsUnusedCommand extends Command<int> {
   final description = 'Checks and fixes unused dependencies.';
 
   @override
-  int run() {
-    final params = lib.DepsUnusedParams(
-      path: argResults.path,
-      mainIgnores: argResults.mainIgnores,
-      devIgnores: argResults.devIgnores,
-      fix: argResults.fix,
-    );
-
-    return DepsUnusedChecker(params).checkWithExit();
-  }
+  int run() => DepsUnusedChecker(
+        lib.DepsUnusedParams(
+          path: argResults.path,
+          mainIgnores: argResults.mainIgnores,
+          devIgnores: argResults.devIgnores,
+          fix: argResults.fix,
+        ),
+        jsonOutput: argResults.json,
+      ).checkWithExit();
 }

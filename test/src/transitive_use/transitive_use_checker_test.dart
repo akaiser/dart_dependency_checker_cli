@@ -1,91 +1,108 @@
+import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
 import 'package:dart_dependency_checker/src/transitive_use/transitive_use_params.dart';
+import 'package:dart_dependency_checker_cli/src/_logger/log_params.dart';
+import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
 import 'package:dart_dependency_checker_cli/src/transitive_use/transitive_use_checker.dart';
 import 'package:test/test.dart';
 
-import '../_fake_logger.dart';
+import '../_fake_results_logger.dart';
 import '../_paths.dart';
 
 void main() {
-  late FakeLogger logger;
+  late FakeResultsLogger logger;
 
-  setUp(() => logger = FakeLogger());
+  setUp(() => logger = FakeResultsLogger());
+
+  TransitiveUseChecker tested(TransitiveUseParams params) =>
+      TransitiveUseChecker(
+        params,
+        jsonOutput: false,
+        logger: logger,
+      );
 
   test('reports error on invalid pubspec.yaml path', () {
-    final result = TransitiveUseChecker(
-      const TransitiveUseParams(path: 'unknown'),
-      logger,
-    ).checkWithExit();
+    tested(const TransitiveUseParams(path: 'unknown')).checkWithExit();
 
-    expect(result, 2);
-    expect(logger.errorMessage, '''
-Invalid pubspec.yaml file path: unknown/pubspec.yaml
-''');
+    expect(
+      logger.params,
+      const LogParams(
+        ResultsStatus.error,
+        'unknown',
+        error: 'Invalid pubspec.yaml file path: unknown/pubspec.yaml',
+      ),
+    );
   });
 
   test('reports error on invalid pubspec.yaml content', () {
-    final result = TransitiveUseChecker(
-      const TransitiveUseParams(path: emptyYamlPath),
-      logger,
-    ).checkWithExit();
+    tested(const TransitiveUseParams(path: emptyYamlPath)).checkWithExit();
 
-    expect(result, 2);
-    expect(logger.errorMessage, '''
-Invalid pubspec.yaml file contents in: $emptyYamlPath/pubspec.yaml
-''');
+    expect(
+      logger.params,
+      const LogParams(
+        ResultsStatus.error,
+        emptyYamlPath,
+        error:
+            'Invalid pubspec.yaml file contents in: $emptyYamlPath/pubspec.yaml',
+      ),
+    );
   });
 
   group('providing all_sources_dirs_multi path', () {
     const path = allSourcesDirsMultiPath;
 
     test('reports only undeclared main and dev dependencies', () {
-      final result = TransitiveUseChecker(
-        const TransitiveUseParams(path: path),
-        logger,
-      ).checkWithExit();
+      tested(const TransitiveUseParams(path: path)).checkWithExit();
 
-      expect(result, 1);
-      expect(logger.warnMessage, '''
-== Found undeclared/transitive packages ==
-Path: $path/pubspec.yaml
-Dependencies:
-  - equatable
-Dev Dependencies:
-  - async
-  - convert
-''');
+      expect(
+        logger.params,
+        const LogParams(
+          ResultsStatus.warning,
+          path,
+          message: 'Found undeclared/transitive packages',
+          results: lib.TransitiveUseResults(
+            mainDependencies: {'equatable'},
+            devDependencies: {'async', 'convert'},
+          ),
+        ),
+      );
     });
 
     test('passed ignores will not be reported', () {
-      final result = TransitiveUseChecker(
-        const TransitiveUseParams(
-          path: path,
-          mainIgnores: {'equatable'},
-          devIgnores: {'convert'},
-        ),
-        logger,
-      ).checkWithExit();
+      const params = TransitiveUseParams(
+        path: path,
+        mainIgnores: {'equatable'},
+        devIgnores: {'convert'},
+      );
+      tested(params).checkWithExit();
 
-      expect(result, 1);
-      expect(logger.warnMessage, '''
-== Found undeclared/transitive packages ==
-Path: $path/pubspec.yaml
-Dev Dependencies:
-  - async
-''');
+      expect(
+        logger.params,
+        const LogParams(
+          ResultsStatus.warning,
+          path,
+          message: 'Found undeclared/transitive packages',
+          results: lib.TransitiveUseResults(
+            mainDependencies: {},
+            devDependencies: {'async'},
+          ),
+        ),
+      );
     });
   });
 
   group('providing no_dependencies path', () {
+    const path = noDependenciesPath;
     test('reports no undeclared dependencies', () {
-      final result = TransitiveUseChecker(
-        const TransitiveUseParams(path: noDependenciesPath),
-        logger,
-      ).checkWithExit();
+      tested(const TransitiveUseParams(path: path)).checkWithExit();
 
-      expect(result, 0);
-      expect(logger.infoMessage, '''
-All clear!
-''');
+      expect(
+        logger.params,
+        const LogParams(
+          ResultsStatus.clear,
+          path,
+          message: 'All clear!',
+        ),
+      );
     });
   });
 
@@ -93,15 +110,16 @@ All clear!
     const path = noSourcesDirsPath;
 
     test('reports no undeclared dependencies', () {
-      final result = TransitiveUseChecker(
-        const TransitiveUseParams(path: path),
-        logger,
-      ).checkWithExit();
+      tested(const TransitiveUseParams(path: path)).checkWithExit();
 
-      expect(result, 0);
-      expect(logger.infoMessage, '''
-All clear!
-''');
+      expect(
+        logger.params,
+        const LogParams(
+          ResultsStatus.clear,
+          path,
+          message: 'All clear!',
+        ),
+      );
     });
   });
 }
