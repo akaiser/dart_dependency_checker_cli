@@ -26,6 +26,9 @@ class TransitiveUseCommand extends Command<int> {
       devIgnores: argResults.devIgnores,
     );
 
-    return TransitiveUseChecker(params, jsonOutput: argResults.json).checkWithExit();
+    return TransitiveUseChecker(
+      params,
+      jsonOutput: argResults.json,
+    ).checkWithExit();
   }
 }

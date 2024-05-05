@@ -28,6 +28,9 @@ class DepsUnusedCommand extends Command<int> {
       fix: argResults.fix,
     );
 
-    return DepsUnusedChecker(params, jsonOutput: argResults.json).checkWithExit();
+    return DepsUnusedChecker(
+      params,
+      jsonOutput: argResults.json,
+    ).checkWithExit();
   }
 }
