@@ -19,7 +19,7 @@ dependencies:
   args: ^2.5.0
   dart_dependency_checker: ^0.1.6
   equatable: ^2.0.5
-  yaansi: ^0.9.1
+  yaansi: ">=0.9.1 <2.0.0"
   yaml: ^3.1.2
 
 dev_dependencies:
