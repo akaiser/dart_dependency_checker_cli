@@ -533,10 +533,10 @@ packages:
     dependency: "direct main"
     description:
       name: yaansi
-      sha256: "5d4c5e36080e82bad12ba3809ad7c7a76f4956ee1b08ee861ded5f9db1946c98"
+      sha256: b08ded76348f93bfab6afd38aa25fee90126cb62617d7ff59b89ef38074d17d6
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.1"
+    version: "1.0.2"
   yaml:
     dependency: "direct main"
     description:
