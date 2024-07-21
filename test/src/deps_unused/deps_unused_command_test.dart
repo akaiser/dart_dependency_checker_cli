@@ -8,6 +8,10 @@ void main() {
     expect(tested.name, 'deps-unused');
   });
 
+  test('has expected aliases', () {
+    expect(tested.aliases, const ['du']);
+  });
+
   test('has expected description', () {
     expect(
       tested.description,
@@ -130,6 +134,28 @@ void main() {
           const ['a', 'b'],
         );
       });
+
+      group('mi alias', () {
+        test('explodes on missing --mi value', () {
+          expect(
+            () => argParser.parse(const {'--mi'}),
+            throwsA(
+              isA<FormatException>().having(
+                (exception) => exception.message,
+                'message',
+                'Missing argument for "main-ignores".',
+              ),
+            ),
+          );
+        });
+
+        test('parses --mi values', () {
+          expect(
+            argParser.parse(const {'--mi', 'a,b'})['main-ignores'],
+            const ['a', 'b'],
+          );
+        });
+      });
     });
 
     group('dev-ignores', () {
@@ -158,6 +184,28 @@ void main() {
           argParser.parse(const {'--dev-ignores', 'a,b'})['dev-ignores'],
           const ['a', 'b'],
         );
+      });
+
+      group('di alias', () {
+        test('explodes on missing --di value', () {
+          expect(
+            () => argParser.parse(const {'--di'}),
+            throwsA(
+              isA<FormatException>().having(
+                (exception) => exception.message,
+                'message',
+                'Missing argument for "dev-ignores".',
+              ),
+            ),
+          );
+        });
+
+        test('parses --di values', () {
+          expect(
+            argParser.parse(const {'--di', 'a,b'})['dev-ignores'],
+            const ['a', 'b'],
+          );
+        });
       });
     });
 

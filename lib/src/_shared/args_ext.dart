@@ -21,11 +21,13 @@ extension ArgParserExt on ArgParser {
 
   void get withMainIgnoresMultiOption => addMultiOption(
         _mainIgnores,
+        aliases: const ['mi'],
         help: 'Comma separated list of main dependencies to be ignored.',
       );
 
   void get withDevIgnoresMultiOption => addMultiOption(
         _devIgnores,
+        aliases: const ['di'],
         help: 'Comma separated list of dev dependencies to be ignored.',
       );
 

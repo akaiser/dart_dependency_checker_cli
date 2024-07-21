@@ -28,7 +28,7 @@ void main() {
     test('has all expected commands', () {
       expect(
         argParser.commands.keys,
-        const ['help', 'deps-unused', 'transitive-use'],
+        const ['help', 'deps-unused', 'du', 'transitive-use', 'tu'],
       );
     });
 

@@ -17,6 +17,9 @@ class DepsUnusedCommand extends Command<int> {
   final name = 'deps-unused';
 
   @override
+  List<String> get aliases => const ['du'];
+
+  @override
   final description = 'Checks and fixes unused dependencies.';
 
   @override

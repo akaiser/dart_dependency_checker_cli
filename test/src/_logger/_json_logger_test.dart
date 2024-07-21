@@ -33,7 +33,7 @@ void main() {
         message: 'any message',
         results: lib.DepsUnusedResults(
           mainDependencies: {'dep1'},
-          devDependencies: {'devDep1', 'devDep2'},
+          devDependencies: {'dev_dep1', 'dev_dep2'},
         ),
       ),
       buffer,
@@ -41,7 +41,7 @@ void main() {
 
     expect(
       '$buffer',
-      '{"path":"any/path","message":"any message","exitCode":1,"error":null,"results":{"mainDependencies":["dep1"],"devDependencies":["devDep1","devDep2"]}}\n',
+      '{"path":"any/path","message":"any message","exitCode":1,"error":null,"results":{"mainDependencies":["dep1"],"devDependencies":["dev_dep1","dev_dep2"]}}\n',
     );
   });
 

@@ -34,7 +34,7 @@ Message: All clear!
         message: 'any message',
         results: lib.DepsUnusedResults(
           mainDependencies: {'dep1'},
-          devDependencies: {'devDep1', 'devDep2'},
+          devDependencies: {'dev_dep1', 'dev_dep2'},
         ),
       ),
       buffer,
@@ -47,8 +47,8 @@ Message: any message
 Dependencies:
   - dep1
 Dev Dependencies:
-  - devDep1
-  - devDep2
+  - dev_dep1
+  - dev_dep2
 ''');
   });
 

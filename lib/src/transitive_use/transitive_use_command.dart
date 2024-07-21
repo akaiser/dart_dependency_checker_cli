@@ -16,6 +16,9 @@ class TransitiveUseCommand extends Command<int> {
   final name = 'transitive-use';
 
   @override
+  List<String> get aliases => const ['tu'];
+
+  @override
   final description = 'Checks direct use of undeclared/transitive dependencies';
 
   @override

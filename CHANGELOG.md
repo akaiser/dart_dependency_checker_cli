@@ -1,3 +1,9 @@
+## 0.2.1
+
+- Update docs, dependencies and internals.
+- Adding shorthand command `du`, `tu` and option `--mi` and `--di` aliases.
+- TODO(albert): remove before release.
+
 ## 0.2.0
 
 - Add `--json` output flag.
