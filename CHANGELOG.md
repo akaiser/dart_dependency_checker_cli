@@ -1,8 +1,8 @@
 ## 0.2.1
 
-- Update docs, dependencies and internals.
 - Adding shorthand command `du`, `tu` and option `--mi` and `--di` aliases.
-- TODO(albert): remove before release.
+- Update docs, dependencies and internals.
+- Require Dart `^3.4.0`.
 
 ## 0.2.0
 
