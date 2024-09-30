@@ -1,3 +1,7 @@
+## 0.3.0
+
+- Require Dart `^3.5.0`.
+
 ## 0.2.1
 
 - Adding shorthand command `du`, `tu` and option `--mi` and `--di` aliases.
