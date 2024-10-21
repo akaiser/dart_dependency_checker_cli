@@ -73,7 +73,7 @@ void main() {
             isA<FormatException>().having(
               (exception) => exception.message,
               'message',
-              'Missing argument for "path".',
+              'Missing argument for "-p".',
             ),
           ),
         );
@@ -93,7 +93,7 @@ void main() {
             isA<FormatException>().having(
               (exception) => exception.message,
               'message',
-              'Missing argument for "path".',
+              'Missing argument for "--path".',
             ),
           ),
         );
@@ -122,7 +122,7 @@ void main() {
             isA<FormatException>().having(
               (exception) => exception.message,
               'message',
-              'Missing argument for "main-ignores".',
+              'Missing argument for "--main-ignores".',
             ),
           ),
         );
@@ -143,7 +143,7 @@ void main() {
               isA<FormatException>().having(
                 (exception) => exception.message,
                 'message',
-                'Missing argument for "main-ignores".',
+                'Missing argument for "--mi".',
               ),
             ),
           );
@@ -173,7 +173,7 @@ void main() {
             isA<FormatException>().having(
               (exception) => exception.message,
               'message',
-              'Missing argument for "dev-ignores".',
+              'Missing argument for "--dev-ignores".',
             ),
           ),
         );
@@ -194,7 +194,7 @@ void main() {
               isA<FormatException>().having(
                 (exception) => exception.message,
                 'message',
-                'Missing argument for "dev-ignores".',
+                'Missing argument for "--di".',
               ),
             ),
           );
