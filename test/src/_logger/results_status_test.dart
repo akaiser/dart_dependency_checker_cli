@@ -3,14 +3,14 @@ import 'package:test/test.dart';
 
 void main() {
   test('has known value', () {
-    expect(ResultsStatus.values, {
+    expect(ResultsStatus.values, const {
       ResultsStatus.clear,
       ResultsStatus.warning,
       ResultsStatus.error,
     });
   });
 
-  <ResultsStatus, int>{
+  const <ResultsStatus, int>{
     ResultsStatus.clear: 0,
     ResultsStatus.warning: 1,
     ResultsStatus.error: 2,

@@ -1,3 +1,7 @@
+## 0.4.0
+
+- Require Dart `^3.6.0`.
+
 ## 0.3.1
 
 - Update dependencies and internals.
