@@ -1,7 +1,6 @@
 ## 0.4.0
 
 - Add `deps-used` with `du` as shorthand command.
-- Renamed `deps-unused` shorthand command to `dun`.
 - Require Dart `^3.6.0`.
 
 ## 0.3.1
