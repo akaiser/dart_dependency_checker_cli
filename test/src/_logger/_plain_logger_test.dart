@@ -21,7 +21,7 @@ void main() {
 
     expect('$buffer', '''
 ================ DDC ================
-Path: any/path/pubspec.yaml
+Path: any/path
 Message: All clear!
 ''');
   });
@@ -42,7 +42,7 @@ Message: All clear!
 
     expect('$buffer', '''
 ================ DDC ================
-Path: any/path/pubspec.yaml
+Path: any/path
 Message: any message
 Dependencies:
   - dep1
@@ -64,7 +64,7 @@ Dev Dependencies:
 
     expect('$buffer', '''
 ================ DDC ================
-Path: any/path/pubspec.yaml
+Path: any/path
 Error: Explosion somewhere!
 ''');
   });

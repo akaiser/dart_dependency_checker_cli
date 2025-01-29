@@ -17,10 +17,11 @@ class DepsUnusedCommand extends Command<int> {
   final name = 'deps-unused';
 
   @override
-  List<String> get aliases => const ['du'];
+  List<String> get aliases => const ['dun'];
 
   @override
-  final description = 'Checks and fixes unused dependencies.';
+  final description =
+      'Checks and fixes via pubspec.yaml declared but unused dependencies.';
 
   @override
   int run() => DepsUnusedChecker(

@@ -1,6 +1,7 @@
 # dart_dependency_checker_cli
 
-A command-line wrapper using utilities from [dart_dependency_checker](https://pub.dev/packages/dart_dependency_checker) for checking dependencies within Dart/Flutter packages.
+A command-line wrapper using utilities from [dart_dependency_checker](https://pub.dev/packages/dart_dependency_checker)
+for checking dependencies within Dart/Flutter packages.
 
 ## Usage
 
@@ -12,13 +13,20 @@ dart pub global activate dart_dependency_checker_cli
 
 Run:
 
-```bash
-ddc deps-unused -p /some/package --dev-ignores lints,build_runner
-# with aliases
-ddc du -p /some/package --di lints,build_runner
+```
+# Dependencies used command
+ddc deps-used -p /some/package
+## with alias
+ddc du -p /some/package
 
+# Dependencies unused command
+ddc deps-unused -p /some/package --dev-ignores lints,build_runner
+## with aliases
+ddc dun -p /some/package --di lints,build_runner
+
+# Transitive use command
 ddc transitive-use -p /some/package --main-ignores async,meta
-# with aliases
+## with aliases
 ddc tu -p /some/package --mi async,meta
 ```
 
@@ -26,10 +34,10 @@ Or even:
 
 ```
 # With instant fix
-ddc deps-unused -p /some/package --fix
+ddc deps-unused --fix
 
 # Json as output
-ddc deps-unused -p /some/package --json
+ddc deps-unused --json
 
 # In a wild mono repo environment
 melos exec -c1 -- ddc deps-unused
@@ -40,7 +48,8 @@ for d in */ ; do (cd $d && ddc deps-unused); done;
 
 ## Future roadmap
 
-- Command `dep-origin`: Utilize `dart pub deps -s compact --no-dev` to extract the origin of a direct/transitive dependency.
+- Command `dep-origin`: Utilize `dart pub deps -s compact --no-dev` to extract the origin of a direct/transitive
+  dependency.
 
 ## License
 

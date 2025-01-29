@@ -1,21 +1,21 @@
-import 'package:dart_dependency_checker_cli/src/transitive_use/transitive_use_command.dart';
+import 'package:dart_dependency_checker_cli/src/deps_used/deps_used_command.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final tested = TransitiveUseCommand();
+  final tested = DepsUsedCommand();
 
   test('has expected name', () {
-    expect(tested.name, 'transitive-use');
+    expect(tested.name, 'deps-used');
   });
 
   test('has expected aliases', () {
-    expect(tested.aliases, const ['tu']);
+    expect(tested.aliases, const ['du']);
   });
 
   test('has expected description', () {
     expect(
       tested.description,
-      'Checks direct use of pubspec.yaml undeclared aka. transitive dependencies.',
+      'Checks used dependencies via imports only.',
     );
   });
 

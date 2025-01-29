@@ -1,10 +1,10 @@
 import 'package:args/command_runner.dart';
 import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
 import 'package:dart_dependency_checker_cli/src/_shared/args_ext.dart';
-import 'package:dart_dependency_checker_cli/src/transitive_use/transitive_use_checker.dart';
+import 'package:dart_dependency_checker_cli/src/deps_used/deps_used_checker.dart';
 
-class TransitiveUseCommand extends Command<int> {
-  TransitiveUseCommand() {
+class DepsUsedCommand extends Command<int> {
+  DepsUsedCommand() {
     argParser
       ..withPathOption
       ..withMainIgnoresMultiOption
@@ -13,18 +13,17 @@ class TransitiveUseCommand extends Command<int> {
   }
 
   @override
-  final name = 'transitive-use';
+  final name = 'deps-used';
 
   @override
-  List<String> get aliases => const ['tu'];
+  List<String> get aliases => const ['du'];
 
   @override
-  final description =
-      'Checks direct use of pubspec.yaml undeclared aka. transitive dependencies.';
+  final description = 'Checks used dependencies via imports only.';
 
   @override
-  int run() => TransitiveUseChecker(
-        lib.TransitiveUseParams(
+  int run() => DepsUsedChecker(
+        lib.DepsUsedParams(
           path: argResults.path,
           mainIgnores: argResults.mainIgnores,
           devIgnores: argResults.devIgnores,

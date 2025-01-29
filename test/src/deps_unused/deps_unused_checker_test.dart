@@ -46,7 +46,7 @@ void main() {
     );
   });
 
-  group('providing all_sources_dirs path', () {
+  group('providing $allSourcesDirsPath path', () {
     const path = allSourcesDirsPath;
 
     test('reports only unused main and dev dependencies', () {
@@ -57,7 +57,7 @@ void main() {
         const LogParams(
           ResultsStatus.warning,
           path,
-          message: 'Found unused packages',
+          message: 'Found unused packages.',
           results: lib.DepsUnusedResults(
             mainDependencies: {'meta'},
             devDependencies: {'integration_test', 'lints'},
@@ -78,7 +78,7 @@ void main() {
         const LogParams(
           ResultsStatus.warning,
           path,
-          message: 'Found unused packages',
+          message: 'Found unused packages.',
           results: lib.DepsUnusedResults(
             mainDependencies: {'meta'},
             devDependencies: {'lints'},
@@ -88,7 +88,7 @@ void main() {
     });
   });
 
-  group('providing no_dependencies path', () {
+  group('providing $noDependenciesPath path', () {
     const path = noDependenciesPath;
 
     test('reports no unused dependencies', () {
@@ -105,7 +105,7 @@ void main() {
     });
   });
 
-  group('providing no_sources_dirs path', () {
+  group('providing $noSourcesDirsPath path', () {
     const path = noSourcesDirsPath;
 
     test('reports all declared main and dev dependencies', () {
@@ -116,7 +116,7 @@ void main() {
         const LogParams(
           ResultsStatus.warning,
           path,
-          message: 'Found unused packages',
+          message: 'Found unused packages.',
           results: lib.DepsUnusedResults(
             mainDependencies: {'meta'},
             devDependencies: {'lints', 'test'},
@@ -137,7 +137,7 @@ void main() {
         const LogParams(
           ResultsStatus.warning,
           path,
-          message: 'Found unused packages',
+          message: 'Found unused packages.',
           results: lib.DepsUnusedResults(
             mainDependencies: {'meta'},
             devDependencies: {},
