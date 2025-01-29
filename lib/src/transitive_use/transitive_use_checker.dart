@@ -31,7 +31,7 @@ class TransitiveUseChecker extends lib.TransitiveUseChecker with CheckerMixin {
           : LogParams(
               ResultsStatus.warning,
               path,
-              message: 'Found undeclared/transitive packages',
+              message: 'Found undeclared/transitive packages.',
               results: results,
             );
     } on lib.CheckerError catch (e) {

@@ -8,7 +8,7 @@ abstract final class PlainLogger {
   static void log(LogParams params, [StringBuffer? b]) {
     final buffer = b ?? StringBuffer()
       ..writeln('================ DDC ================')
-      ..writeln('Path: ${params.path}/pubspec.yaml');
+      ..writeln('Path: ${params.path}');
 
     final resultStatus = params.resultStatus;
 

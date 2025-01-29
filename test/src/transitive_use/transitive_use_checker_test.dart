@@ -47,7 +47,7 @@ void main() {
     );
   });
 
-  group('providing all_sources_dirs_multi path', () {
+  group('providing $allSourcesDirsMultiPath path', () {
     const path = allSourcesDirsMultiPath;
 
     test('reports only undeclared main and dev dependencies', () {
@@ -58,7 +58,7 @@ void main() {
         const LogParams(
           ResultsStatus.warning,
           path,
-          message: 'Found undeclared/transitive packages',
+          message: 'Found undeclared/transitive packages.',
           results: lib.TransitiveUseResults(
             mainDependencies: {'equatable'},
             devDependencies: {'async', 'convert'},
@@ -80,7 +80,7 @@ void main() {
         const LogParams(
           ResultsStatus.warning,
           path,
-          message: 'Found undeclared/transitive packages',
+          message: 'Found undeclared/transitive packages.',
           results: lib.TransitiveUseResults(
             mainDependencies: {},
             devDependencies: {'async'},
@@ -90,7 +90,7 @@ void main() {
     });
   });
 
-  group('providing no_dependencies path', () {
+  group('providing $noDependenciesPath path', () {
     const path = noDependenciesPath;
     test('reports no undeclared dependencies', () {
       tested(const TransitiveUseParams(path: path)).checkWithExit();
@@ -106,7 +106,7 @@ void main() {
     });
   });
 
-  group('providing no_sources_dirs path', () {
+  group('providing $noSourcesDirsPath path', () {
     const path = noSourcesDirsPath;
 
     test('reports no undeclared dependencies', () {

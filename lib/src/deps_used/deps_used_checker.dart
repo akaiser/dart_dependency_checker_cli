@@ -4,8 +4,8 @@ import 'package:dart_dependency_checker_cli/src/_logger/results_logger.dart';
 import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
 import 'package:dart_dependency_checker_cli/src/_shared/check_mixin.dart';
 
-class DepsUnusedChecker extends lib.DepsUnusedChecker with CheckerMixin {
-  const DepsUnusedChecker(
+class DepsUsedChecker extends lib.DepsUsedChecker with CheckerMixin {
+  const DepsUsedChecker(
     super.params, {
     required this.jsonOutput,
     this.logger = const ResultsLogger(),
@@ -22,18 +22,12 @@ class DepsUnusedChecker extends lib.DepsUnusedChecker with CheckerMixin {
     try {
       final results = super.check();
 
-      logParams = results.isEmpty
-          ? LogParams(
-              ResultsStatus.clear,
-              path,
-              message: 'All clear!',
-            )
-          : LogParams(
-              params.fix ? ResultsStatus.clear : ResultsStatus.warning,
-              path,
-              message: '${params.fix ? 'Fixed' : 'Found'} unused packages.',
-              results: results,
-            );
+      logParams = LogParams(
+        ResultsStatus.clear,
+        path,
+        message: '${results.isEmpty ? 'No' : 'Some'} dependencies found.',
+        results: results,
+      );
     } on lib.CheckerError catch (e) {
       logParams = LogParams(
         ResultsStatus.error,

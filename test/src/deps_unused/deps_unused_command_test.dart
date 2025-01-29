@@ -9,13 +9,13 @@ void main() {
   });
 
   test('has expected aliases', () {
-    expect(tested.aliases, const ['du']);
+    expect(tested.aliases, const ['dun']);
   });
 
   test('has expected description', () {
     expect(
       tested.description,
-      'Checks and fixes unused dependencies.',
+      'Checks and fixes via pubspec.yaml declared but unused dependencies.',
     );
   });
 

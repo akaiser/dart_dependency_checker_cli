@@ -1,5 +1,6 @@
 ## 0.4.0
 
+- Add `deps-used` with `du` as shorthand command.
 - Require Dart `^3.6.0`.
 
 ## 0.3.1
@@ -12,7 +13,7 @@
 
 ## 0.2.1
 
-- Adding shorthand command `du`, `tu` and option `--mi` and `--di` aliases.
+- Adding shorthand command `dun`, `tu` and option `--mi` and `--di` aliases.
 - Update docs, dependencies and internals.
 - Require Dart `^3.4.0`.
 
