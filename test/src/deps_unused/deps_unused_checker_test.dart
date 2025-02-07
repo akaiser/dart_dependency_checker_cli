@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
 import 'package:dart_dependency_checker/src/deps_unused/deps_unused_params.dart';
 import 'package:dart_dependency_checker_cli/src/_logger/log_params.dart';
@@ -146,4 +148,79 @@ void main() {
       );
     });
   });
+
+  group('with "fix" flag', () {
+    group('providing $meantForFixingPath path', () {
+      const sourcePath = meantForFixingPath;
+      final sourceFile = File('$sourcePath/pubspec.yaml');
+      final sourceContent = sourceFile.readAsStringSync();
+
+      tearDown(() => sourceFile.writeAsStringSync(sourceContent));
+
+      test('cleanes source file', () {
+        const params = DepsUnusedParams(
+          path: sourcePath,
+          mainIgnores: {'args', 'bla_support'},
+          devIgnores: {
+            'flutter_test',
+            'bla_dart_lints',
+            'test',
+            'bla_other_bed',
+          },
+          fix: true,
+        );
+
+        tested(params).checkWithExit();
+
+        expect(
+          sourceFile.readAsStringSync(),
+          '$sourcePath/expected.yaml'.read,
+        );
+      });
+
+      test('leaves blank dependency sections', () {
+        const params = DepsUnusedParams(
+          path: sourcePath,
+          mainIgnores: {},
+          devIgnores: {},
+          fix: true,
+        );
+
+        tested(params).checkWithExit();
+
+        expect(
+          sourceFile.readAsStringSync(),
+          '$sourcePath/expected_empty_dependencies.yaml'.read,
+        );
+      });
+    });
+
+    group('providing $meantForFixingEmptyPath path', () {
+      const sourcePath = meantForFixingEmptyPath;
+      final sourceFile = File('$sourcePath/pubspec.yaml');
+      final sourceContent = sourceFile.readAsStringSync();
+
+      tearDown(() => sourceFile.writeAsStringSync(sourceContent));
+
+      test('passes with no changes', () {
+        const params = DepsUnusedParams(
+          path: sourcePath,
+          mainIgnores: {},
+          devIgnores: {},
+          fix: true,
+        );
+
+        tested(params).checkWithExit();
+
+        expect(
+          sourceFile.readAsStringSync(),
+          '$sourcePath/expected.yaml'.read,
+        );
+      });
+    });
+  });
+}
+
+extension on String {
+  String get read => File(this).readAsStringSync();
 }

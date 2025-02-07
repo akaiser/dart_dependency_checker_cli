@@ -1,3 +1,8 @@
+## 0.4.1
+
+- Bump `dart_dependency_checker` to `^0.3.2`:
+    - Guarantees valid yaml output after `deps-unused --fix` run.
+
 ## 0.4.0
 
 - Add `deps-used` with `du` as shorthand command.
