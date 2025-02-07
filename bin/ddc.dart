@@ -1,3 +1,3 @@
-import '_main.dart' as ddcc;
+import '_main.dart' as ddc;
 
-Future<void> main(List<String> args) => ddcc.main(args);
+Future<void> main(List<String> args) => ddc.main(args);

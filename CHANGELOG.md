@@ -1,4 +1,4 @@
-## 0.4.1
+## 0.4.2
 
 - Bump `dart_dependency_checker` to `^0.3.2`:
     - Guarantees valid yaml output after `deps-unused --fix` run.
