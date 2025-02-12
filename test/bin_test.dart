@@ -8,10 +8,10 @@ void main() {
   final executables = (yaml['executables'] as YamlMap).nodes.keys;
 
   for (final executable in executables) {
-    test('Executable runs and prints expected output', () async {
+    test('$executable runs and prints expected output', () async {
       final result = await Process.run('dart', ['bin/$executable.dart']);
 
-      expect(result.exitCode, equals(0));
+      expect(result.exitCode, 0);
     });
   }
 }
