@@ -21,7 +21,7 @@ void main() {
       );
 
   test('reports error on invalid pubspec.yaml path', () {
-    tested(const TransitiveUseParams(path: 'unknown')).checkWithExit();
+    tested(const TransitiveUseParams(path: 'unknown')).performWithExit();
 
     expect(
       logger.params,
@@ -34,7 +34,7 @@ void main() {
   });
 
   test('reports error on invalid pubspec.yaml content', () {
-    tested(const TransitiveUseParams(path: emptyYamlPath)).checkWithExit();
+    tested(const TransitiveUseParams(path: emptyYamlPath)).performWithExit();
 
     expect(
       logger.params,
@@ -51,7 +51,7 @@ void main() {
     const path = allSourcesDirsMultiPath;
 
     test('reports only undeclared main and dev dependencies', () {
-      tested(const TransitiveUseParams(path: path)).checkWithExit();
+      tested(const TransitiveUseParams(path: path)).performWithExit();
 
       expect(
         logger.params,
@@ -73,7 +73,7 @@ void main() {
         mainIgnores: {'equatable'},
         devIgnores: {'convert'},
       );
-      tested(params).checkWithExit();
+      tested(params).performWithExit();
 
       expect(
         logger.params,
@@ -93,7 +93,7 @@ void main() {
   group('providing $noDependenciesPath path', () {
     const path = noDependenciesPath;
     test('reports no undeclared dependencies', () {
-      tested(const TransitiveUseParams(path: path)).checkWithExit();
+      tested(const TransitiveUseParams(path: path)).performWithExit();
 
       expect(
         logger.params,
@@ -110,7 +110,7 @@ void main() {
     const path = noSourcesDirsPath;
 
     test('reports no undeclared dependencies', () {
-      tested(const TransitiveUseParams(path: path)).checkWithExit();
+      tested(const TransitiveUseParams(path: path)).performWithExit();
 
       expect(
         logger.params,

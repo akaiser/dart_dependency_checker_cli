@@ -32,5 +32,5 @@ class DepsUnusedCommand extends Command<int> {
           fix: argResults.fix,
         ),
         jsonOutput: argResults.json,
-      ).checkWithExit();
+      ).performWithExit();
 }

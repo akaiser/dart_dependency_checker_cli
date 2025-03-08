@@ -20,7 +20,7 @@ void main() {
       );
 
   test('reports error on invalid pubspec.yaml path', () {
-    tested(const DepsUsedParams(path: 'unknown')).checkWithExit();
+    tested(const DepsUsedParams(path: 'unknown')).performWithExit();
 
     expect(
       logger.params,
@@ -33,7 +33,7 @@ void main() {
   });
 
   test('reports error on invalid pubspec.yaml content', () {
-    tested(const DepsUsedParams(path: emptyYamlPath)).checkWithExit();
+    tested(const DepsUsedParams(path: emptyYamlPath)).performWithExit();
 
     expect(
       logger.params,
@@ -50,7 +50,7 @@ void main() {
     const path = noSourcesDirsPath;
 
     test('reports no dependencies found', () {
-      tested(const DepsUsedParams(path: path)).checkWithExit();
+      tested(const DepsUsedParams(path: path)).performWithExit();
 
       expect(
         logger.params,
@@ -71,7 +71,7 @@ void main() {
     const path = allSourcesDirsMultiPath;
 
     test('reports all dependencies', () {
-      tested(const DepsUsedParams(path: path)).checkWithExit();
+      tested(const DepsUsedParams(path: path)).performWithExit();
 
       expect(
         logger.params,
@@ -93,7 +93,7 @@ void main() {
         mainIgnores: {'equatable'},
         devIgnores: {'convert'},
       );
-      tested(params).checkWithExit();
+      tested(params).performWithExit();
 
       expect(
         logger.params,

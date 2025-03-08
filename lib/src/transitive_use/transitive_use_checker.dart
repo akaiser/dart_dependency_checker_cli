@@ -2,9 +2,10 @@ import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
 import 'package:dart_dependency_checker_cli/src/_logger/log_params.dart';
 import 'package:dart_dependency_checker_cli/src/_logger/results_logger.dart';
 import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
-import 'package:dart_dependency_checker_cli/src/_shared/check_mixin.dart';
+import 'package:dart_dependency_checker_cli/src/_shared/performer_mixin.dart';
 
-class TransitiveUseChecker extends lib.TransitiveUseChecker with CheckerMixin {
+class TransitiveUseChecker extends lib.TransitiveUseChecker
+    with PerformerMixin {
   const TransitiveUseChecker(
     super.params, {
     required this.jsonOutput,
@@ -15,7 +16,7 @@ class TransitiveUseChecker extends lib.TransitiveUseChecker with CheckerMixin {
   final bool jsonOutput;
 
   @override
-  int checkWithExit() {
+  int performWithExit() {
     late final LogParams logParams;
     final path = params.path;
 

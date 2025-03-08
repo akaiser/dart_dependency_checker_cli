@@ -30,5 +30,5 @@ class TransitiveUseCommand extends Command<int> {
           devIgnores: argResults.devIgnores,
         ),
         jsonOutput: argResults.json,
-      ).checkWithExit();
+      ).performWithExit();
 }

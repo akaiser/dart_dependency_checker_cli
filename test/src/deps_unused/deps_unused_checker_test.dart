@@ -22,7 +22,7 @@ void main() {
       );
 
   test('reports error on invalid pubspec.yaml path', () {
-    tested(const DepsUnusedParams(path: 'unknown')).checkWithExit();
+    tested(const DepsUnusedParams(path: 'unknown')).performWithExit();
 
     expect(
       logger.params,
@@ -35,7 +35,7 @@ void main() {
   });
 
   test('reports error on invalid pubspec.yaml content', () {
-    tested(const DepsUnusedParams(path: emptyYamlPath)).checkWithExit();
+    tested(const DepsUnusedParams(path: emptyYamlPath)).performWithExit();
 
     expect(
       logger.params,
@@ -52,7 +52,7 @@ void main() {
     const path = allSourcesDirsPath;
 
     test('reports only unused main and dev dependencies', () {
-      tested(const DepsUnusedParams(path: path)).checkWithExit();
+      tested(const DepsUnusedParams(path: path)).performWithExit();
 
       expect(
         logger.params,
@@ -73,7 +73,7 @@ void main() {
         path: path,
         devIgnores: {'integration_test'},
       );
-      tested(params).checkWithExit();
+      tested(params).performWithExit();
 
       expect(
         logger.params,
@@ -94,7 +94,7 @@ void main() {
     const path = noDependenciesPath;
 
     test('reports no unused dependencies', () {
-      tested(const DepsUnusedParams(path: path)).checkWithExit();
+      tested(const DepsUnusedParams(path: path)).performWithExit();
 
       expect(
         logger.params,
@@ -111,7 +111,7 @@ void main() {
     const path = noSourcesDirsPath;
 
     test('reports all declared main and dev dependencies', () {
-      tested(const DepsUnusedParams(path: path)).checkWithExit();
+      tested(const DepsUnusedParams(path: path)).performWithExit();
 
       expect(
         logger.params,
@@ -132,7 +132,7 @@ void main() {
         'even if no sources were found', () {
       tested(
         const DepsUnusedParams(path: path, devIgnores: {'lints', 'test'}),
-      ).checkWithExit();
+      ).performWithExit();
 
       expect(
         logger.params,
@@ -170,7 +170,7 @@ void main() {
           fix: true,
         );
 
-        tested(params).checkWithExit();
+        tested(params).performWithExit();
 
         expect(
           sourceFile.readAsStringSync(),
@@ -186,7 +186,7 @@ void main() {
           fix: true,
         );
 
-        tested(params).checkWithExit();
+        tested(params).performWithExit();
 
         expect(
           sourceFile.readAsStringSync(),
@@ -210,7 +210,7 @@ void main() {
           fix: true,
         );
 
-        tested(params).checkWithExit();
+        tested(params).performWithExit();
 
         expect(
           sourceFile.readAsStringSync(),
