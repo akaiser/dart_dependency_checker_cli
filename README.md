@@ -46,11 +46,6 @@ melos exec -c1 -- ddc deps-unused
 for d in */ ; do (cd $d && ddc deps-unused); done;
 ```
 
-## Future roadmap
-
-- Command `dep-origin`: Utilize `dart pub deps -s compact --no-dev` to extract the origin of a direct/transitive
-  dependency.
-
 ## License
 
 See the [LICENSE](LICENSE) file.

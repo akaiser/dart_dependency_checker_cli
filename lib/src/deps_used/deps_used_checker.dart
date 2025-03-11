@@ -20,7 +20,7 @@ class DepsUsedChecker extends lib.DepsUsedChecker with PerformerMixin {
     final path = params.path;
 
     try {
-      final results = super.check();
+      final results = super.perform();
 
       logParams = LogParams(
         ResultsStatus.clear,
@@ -28,7 +28,7 @@ class DepsUsedChecker extends lib.DepsUsedChecker with PerformerMixin {
         message: '${results.isEmpty ? 'No' : 'Some'} dependencies found.',
         results: results,
       );
-    } on lib.CheckerError catch (e) {
+    } on lib.PerformerError catch (e) {
       logParams = LogParams(
         ResultsStatus.error,
         path,
