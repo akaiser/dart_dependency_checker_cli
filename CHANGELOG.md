@@ -1,6 +1,6 @@
 ## 0.5.0
 
-- TODO(Albert): Remove once version is ready for release.
+- Add `deps-add` with `da` as shorthand command.
 - Breaking change: Change main interface to more generic `Performer` signature.
 
 ## 0.4.2

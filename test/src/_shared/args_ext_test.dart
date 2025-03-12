@@ -86,50 +86,85 @@ void main() {
 
   group('ArgResultsExt', () {
     group('path', () {
+      final parser = ArgParser()..withPathOption;
+
       test('resolves to ${Directory.current.path} on null $ArgResults', () {
         expect(null.path, Directory.current.path);
       });
 
       test('resolves to ${Directory.current.path} when no path arg parsed', () {
-        final parser = ArgParser()
-          ..withPathOption
-          ..withFixFlag;
-        final tested = (parser).parse(const {'--fix'});
+        final tested = (parser).parse(const {});
 
         expect(tested.path, Directory.current.path);
       });
 
       test('resolves to provided -p value', () {
-        final parser = ArgParser()..withPathOption;
         final tested = (parser).parse(const {'-p', 'some/path'});
 
         expect(tested.path, 'some/path');
       });
 
       test('resolves to provided --path value', () {
-        final parser = ArgParser()..withPathOption;
         final tested = (parser).parse(const {'--path=some/path'});
 
         expect(tested.path, 'some/path');
       });
     });
 
+    group('main', () {
+      final parser = ArgParser()..withMainMultiOption;
+
+      test('resolves to empty on null $ArgResults', () {
+        expect(null.main, const <String>{});
+      });
+
+      test('resolves to empty when no --main arg parsed', () {
+        final tested = (parser).parse(const {});
+
+        expect(tested.main, const <String>{});
+      });
+
+      test('resolves to provided --main values', () {
+        final tested = (parser).parse(const {'--main', 'a,b,c'});
+
+        expect(tested.main, const {'a', 'b', 'c'});
+      });
+    });
+
+    group('dev', () {
+      final parser = ArgParser()..withDevMultiOption;
+
+      test('resolves to empty on null $ArgResults', () {
+        expect(null.dev, const <String>{});
+      });
+
+      test('resolves to empty when no --dev arg parsed', () {
+        final tested = (parser).parse(const {});
+
+        expect(tested.dev, const <String>{});
+      });
+
+      test('resolves to provided --dev values', () {
+        final tested = (parser).parse(const {'--dev', 'a,b,c'});
+
+        expect(tested.dev, const {'a', 'b', 'c'});
+      });
+    });
+
     group('mainIgnores', () {
+      final parser = ArgParser()..withMainIgnoresMultiOption;
+
       test('resolves to empty on null $ArgResults', () {
         expect(null.mainIgnores, const <String>{});
       });
 
       test('resolves to empty when no --main-ignores arg parsed', () {
-        final parser = ArgParser()
-          ..withMainIgnoresMultiOption
-          ..withFixFlag;
-        final tested = (parser).parse(const {'--fix'});
+        final tested = (parser).parse(const {});
 
         expect(tested.mainIgnores, const <String>{});
       });
 
       test('resolves to provided --main-ignores values', () {
-        final parser = ArgParser()..withMainIgnoresMultiOption;
         final tested = (parser).parse(const {'--main-ignores', 'a,b,c'});
 
         expect(tested.mainIgnores, const {'a', 'b', 'c'});
@@ -137,21 +172,19 @@ void main() {
     });
 
     group('devIgnores', () {
+      final parser = ArgParser()..withDevIgnoresMultiOption;
+
       test('resolves to empty on null $ArgResults', () {
         expect(null.devIgnores, const <String>{});
       });
 
       test('resolves to empty when no --dev-ignores arg parsed', () {
-        final parser = ArgParser()
-          ..withDevIgnoresMultiOption
-          ..withFixFlag;
-        final tested = (parser).parse(const {'--fix'});
+        final tested = (parser).parse(const {});
 
         expect(tested.devIgnores, const <String>{});
       });
 
       test('resolves to provided --dev-ignores values', () {
-        final parser = ArgParser()..withDevIgnoresMultiOption;
         final tested = (parser).parse(const {'--dev-ignores', 'a,b,c'});
 
         expect(tested.devIgnores, const {'a', 'b', 'c'});
@@ -159,28 +192,25 @@ void main() {
     });
 
     group('fix', () {
+      final parser = ArgParser()..withFixFlag;
+
       test('resolves to false on null $ArgResults', () {
         expect(null.fix, isFalse);
       });
 
       test('resolves to false when no --fix flag parsed', () {
-        final parser = ArgParser()
-          ..withFixFlag
-          ..withJsonFlag;
-        final tested = (parser).parse(const {'--json'});
+        final tested = (parser).parse(const {});
 
         expect(tested.fix, isFalse);
       });
 
       test('resolves to true if --fix flag provided', () {
-        final parser = ArgParser()..withFixFlag;
         final tested = (parser).parse(const {'--fix'});
 
         expect(tested.fix, isTrue);
       });
 
       test('resolves to false if --no-fix flag provided', () {
-        final parser = ArgParser()..withFixFlag;
         final tested = (parser).parse(const {'--no-fix'});
 
         expect(tested.fix, isFalse);
@@ -188,28 +218,25 @@ void main() {
     });
 
     group('json', () {
+      final parser = ArgParser()..withJsonFlag;
+
       test('resolves to false on null $ArgResults', () {
         expect(null.json, isFalse);
       });
 
       test('resolves to false when no --json flag parsed', () {
-        final parser = ArgParser()
-          ..withJsonFlag
-          ..withFixFlag;
-        final tested = (parser).parse(const {'--fix'});
+        final tested = (parser).parse(const {});
 
         expect(tested.json, isFalse);
       });
 
       test('resolves to true if --json flag provided', () {
-        final parser = ArgParser()..withJsonFlag;
         final tested = (parser).parse(const {'--json'});
 
         expect(tested.json, isTrue);
       });
 
       test('resolves to false if --no-json flag provided', () {
-        final parser = ArgParser()..withJsonFlag;
         final tested = (parser).parse(const {'--no-json'});
 
         expect(tested.json, isFalse);

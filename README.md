@@ -28,6 +28,12 @@ ddc dun -p /some/package --di lints,build_runner
 ddc transitive-use -p /some/package --main-ignores async,meta
 ## with aliases
 ddc tu -p /some/package --mi async,meta
+
+# Dependencies add command
+ddc deps-add -p /some/package --main async,meta
+## with aliases
+ddc da -p /some/package --m async,meta
+
 ```
 
 Or even:
