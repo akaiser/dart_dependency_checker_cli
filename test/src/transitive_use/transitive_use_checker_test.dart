@@ -1,5 +1,4 @@
 import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
-import 'package:dart_dependency_checker/src/transitive_use/transitive_use_params.dart';
 import 'package:dart_dependency_checker_cli/src/_logger/log_params.dart';
 import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
 import 'package:dart_dependency_checker_cli/src/transitive_use/transitive_use_checker.dart';
@@ -13,7 +12,7 @@ void main() {
 
   setUp(() => logger = FakeResultsLogger());
 
-  TransitiveUseChecker tested(TransitiveUseParams params) =>
+  TransitiveUseChecker tested(lib.TransitiveUseParams params) =>
       TransitiveUseChecker(
         params,
         jsonOutput: false,
@@ -21,7 +20,7 @@ void main() {
       );
 
   test('reports error on invalid pubspec.yaml path', () {
-    tested(const TransitiveUseParams(path: 'unknown')).performWithExit();
+    tested(const lib.TransitiveUseParams(path: 'unknown')).performWithExit();
 
     expect(
       logger.params,
@@ -34,7 +33,8 @@ void main() {
   });
 
   test('reports error on invalid pubspec.yaml content', () {
-    tested(const TransitiveUseParams(path: emptyYamlPath)).performWithExit();
+    tested(const lib.TransitiveUseParams(path: emptyYamlPath))
+        .performWithExit();
 
     expect(
       logger.params,
@@ -51,7 +51,7 @@ void main() {
     const path = allSourcesDirsMultiPath;
 
     test('reports only undeclared main and dev dependencies', () {
-      tested(const TransitiveUseParams(path: path)).performWithExit();
+      tested(const lib.TransitiveUseParams(path: path)).performWithExit();
 
       expect(
         logger.params,
@@ -68,7 +68,7 @@ void main() {
     });
 
     test('passed ignores will not be reported', () {
-      const params = TransitiveUseParams(
+      const params = lib.TransitiveUseParams(
         path: path,
         mainIgnores: {'equatable'},
         devIgnores: {'convert'},
@@ -93,7 +93,7 @@ void main() {
   group('providing $noDependenciesPath path', () {
     const path = noDependenciesPath;
     test('reports no undeclared dependencies', () {
-      tested(const TransitiveUseParams(path: path)).performWithExit();
+      tested(const lib.TransitiveUseParams(path: path)).performWithExit();
 
       expect(
         logger.params,
@@ -110,7 +110,7 @@ void main() {
     const path = noSourcesDirsPath;
 
     test('reports no undeclared dependencies', () {
-      tested(const TransitiveUseParams(path: path)).performWithExit();
+      tested(const lib.TransitiveUseParams(path: path)).performWithExit();
 
       expect(
         logger.params,

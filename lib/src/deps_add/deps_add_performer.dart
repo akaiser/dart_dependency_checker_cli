@@ -4,8 +4,8 @@ import 'package:dart_dependency_checker_cli/src/_logger/results_logger.dart';
 import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
 import 'package:dart_dependency_checker_cli/src/_shared/performer_mixin.dart';
 
-class DepsUsedChecker extends lib.DepsUsedChecker with PerformerMixin {
-  const DepsUsedChecker(
+class DepsAddPerformer extends lib.DepsAddPerformer with PerformerMixin {
+  const DepsAddPerformer(
     super.params, {
     required this.jsonOutput,
     this.logger = const ResultsLogger(),
@@ -20,13 +20,16 @@ class DepsUsedChecker extends lib.DepsUsedChecker with PerformerMixin {
     final path = params.path;
 
     try {
-      final results = super.perform();
+      super.perform();
 
       logParams = LogParams(
         ResultsStatus.clear,
         path,
-        message: '${results.isEmpty ? 'No' : 'Some'} dependencies found.',
-        results: results,
+        message: 'Added packages.',
+        results: DepsAddResults(
+          mainDependencies: params.main,
+          devDependencies: params.dev,
+        ),
       );
     } on lib.PerformerError catch (e) {
       logParams = LogParams(
@@ -38,4 +41,11 @@ class DepsUsedChecker extends lib.DepsUsedChecker with PerformerMixin {
 
     return logger.logWithExit(logParams, jsonOutput);
   }
+}
+
+class DepsAddResults extends lib.BaseResults {
+  const DepsAddResults({
+    required super.mainDependencies,
+    required super.devDependencies,
+  });
 }

@@ -21,7 +21,7 @@ class TransitiveUseChecker extends lib.TransitiveUseChecker
     final path = params.path;
 
     try {
-      final results = super.check();
+      final results = super.perform();
 
       logParams = results.isEmpty
           ? LogParams(
@@ -35,7 +35,7 @@ class TransitiveUseChecker extends lib.TransitiveUseChecker
               message: 'Found undeclared/transitive packages.',
               results: results,
             );
-    } on lib.CheckerError catch (e) {
+    } on lib.PerformerError catch (e) {
       logParams = LogParams(
         ResultsStatus.error,
         path,

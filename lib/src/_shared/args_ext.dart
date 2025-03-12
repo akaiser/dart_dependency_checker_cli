@@ -4,6 +4,8 @@ import 'package:args/args.dart';
 
 const // options
     _path = 'path',
+    _main = 'main',
+    _dev = 'dev',
     _mainIgnores = 'main-ignores',
     _devIgnores = 'dev-ignores';
 
@@ -17,6 +19,18 @@ extension ArgParserExt on ArgParser {
         abbr: _path[0],
         valueHelp: 'path',
         help: 'Path to valid pubspec.yaml.',
+      );
+
+  void get withMainMultiOption => addMultiOption(
+        _main,
+        aliases: const ['m'],
+        help: 'Comma separated list of main dependencies.',
+      );
+
+  void get withDevMultiOption => addMultiOption(
+        _dev,
+        aliases: const ['d'],
+        help: 'Comma separated list of dev dependencies.',
       );
 
   void get withMainIgnoresMultiOption => addMultiOption(
@@ -45,11 +59,16 @@ extension ArgParserExt on ArgParser {
 extension ArgResultsExt on ArgResults? {
   String get path => this?.option(_path) ?? Directory.current.path;
 
-  Set<String> get mainIgnores =>
-      this?.multiOption(_mainIgnores).toSet() ?? const {};
+  Set<String> _multiOption(String option) =>
+      this?.multiOption(option).toSet() ?? const {};
 
-  Set<String> get devIgnores =>
-      this?.multiOption(_devIgnores).toSet() ?? const {};
+  Set<String> get main => _multiOption(_main);
+
+  Set<String> get dev => _multiOption(_dev);
+
+  Set<String> get mainIgnores => _multiOption(_mainIgnores);
+
+  Set<String> get devIgnores => _multiOption(_devIgnores);
 
   bool get fix => this?.flag(_fix) ?? false;
 

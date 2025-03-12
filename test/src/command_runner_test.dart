@@ -30,6 +30,8 @@ void main() {
         argParser.commands.keys,
         const [
           'help',
+          'deps-add',
+          'da',
           'deps-used',
           'du',
           'deps-unused',

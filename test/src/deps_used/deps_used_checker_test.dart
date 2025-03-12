@@ -1,5 +1,4 @@
 import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
-import 'package:dart_dependency_checker/src/deps_used/deps_used_params.dart';
 import 'package:dart_dependency_checker_cli/src/_logger/log_params.dart';
 import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
 import 'package:dart_dependency_checker_cli/src/deps_used/deps_used_checker.dart';
@@ -13,14 +12,14 @@ void main() {
 
   setUp(() => logger = FakeResultsLogger());
 
-  DepsUsedChecker tested(DepsUsedParams params) => DepsUsedChecker(
+  DepsUsedChecker tested(lib.DepsUsedParams params) => DepsUsedChecker(
         params,
         jsonOutput: false,
         logger: logger,
       );
 
   test('reports error on invalid pubspec.yaml path', () {
-    tested(const DepsUsedParams(path: 'unknown')).performWithExit();
+    tested(const lib.DepsUsedParams(path: 'unknown')).performWithExit();
 
     expect(
       logger.params,
@@ -33,7 +32,7 @@ void main() {
   });
 
   test('reports error on invalid pubspec.yaml content', () {
-    tested(const DepsUsedParams(path: emptyYamlPath)).performWithExit();
+    tested(const lib.DepsUsedParams(path: emptyYamlPath)).performWithExit();
 
     expect(
       logger.params,
@@ -50,7 +49,7 @@ void main() {
     const path = noSourcesDirsPath;
 
     test('reports no dependencies found', () {
-      tested(const DepsUsedParams(path: path)).performWithExit();
+      tested(const lib.DepsUsedParams(path: path)).performWithExit();
 
       expect(
         logger.params,
@@ -71,7 +70,7 @@ void main() {
     const path = allSourcesDirsMultiPath;
 
     test('reports all dependencies', () {
-      tested(const DepsUsedParams(path: path)).performWithExit();
+      tested(const lib.DepsUsedParams(path: path)).performWithExit();
 
       expect(
         logger.params,
@@ -88,7 +87,7 @@ void main() {
     });
 
     test('passed ignores will not be reported', () {
-      const params = DepsUsedParams(
+      const params = lib.DepsUsedParams(
         path: path,
         mainIgnores: {'equatable'},
         devIgnores: {'convert'},

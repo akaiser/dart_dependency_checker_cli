@@ -17,7 +17,7 @@ environment:
 
 dependencies:
   args: ^2.6.0
-  dart_dependency_checker: ^0.3.2
+  dart_dependency_checker: 0.4.0
   equatable: ^2.0.7
   yaansi: ^1.2.0
 
