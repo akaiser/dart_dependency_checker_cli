@@ -1,3 +1,7 @@
+## 0.5.1
+
+- The `deps-add` command does a little new lines cleanup.
+
 ## 0.5.0
 
 - Add `deps-add` with `da` as shorthand command.

@@ -42,7 +42,7 @@ void main() {
 
     tearDown(() => sourceFile.writeAsStringSync(sourceContent));
 
-    test('will add all dependencies and log properly', () {
+    test('will add dependencies when dependencies provided', () {
       const params = lib.DepsAddParams(
         path: sourcePath,
         main: {
@@ -67,8 +67,8 @@ void main() {
         logger.params,
         const LogParams(
           ResultsStatus.clear,
-          meantForAddingPath,
-          message: 'Added packages.',
+          sourcePath,
+          message: 'Packages added.',
           results: DepsAddResults(
             mainDependencies: {
               'equatable:^2.0.7',
@@ -80,6 +80,64 @@ void main() {
               'test: ^1.16.0',
               'build_runner: 2.4.15',
             },
+          ),
+        ),
+      );
+    });
+
+    test('will not add anything when no dependencies provided', () {
+      const params = lib.DepsAddParams(
+        path: sourcePath,
+        main: {},
+        dev: {},
+      );
+
+      tested(params).performWithExit();
+
+      expect(
+        logger.params,
+        const LogParams(
+          ResultsStatus.warning,
+          sourcePath,
+          message: 'No packages added.',
+          results: DepsAddResults(
+            mainDependencies: {},
+            devDependencies: {},
+          ),
+        ),
+      );
+    });
+  });
+
+  group('providing $meantForAddingNoNodesPath path', () {
+    const sourcePath = meantForAddingNoNodesPath;
+    final sourceFile = File('$sourcePath/pubspec.yaml');
+    final sourceContent = sourceFile.read;
+
+    tearDown(() => sourceFile.writeAsStringSync(sourceContent));
+
+    test('will not add anything even when dependencies provided', () {
+      const params = lib.DepsAddParams(
+        path: sourcePath,
+        main: {'equatable:^2.0.7', 'yaml: 3.1.3'},
+        dev: {'test: ^1.16.0', 'build_runner: 2.4.15'},
+      );
+
+      tested(params).performWithExit();
+
+      expect(
+        sourceFile.read,
+        '$sourcePath/expected.yaml'.read,
+      );
+      expect(
+        logger.params,
+        const LogParams(
+          ResultsStatus.warning,
+          sourcePath,
+          message: 'No packages added.',
+          results: DepsAddResults(
+            mainDependencies: {},
+            devDependencies: {},
           ),
         ),
       );
