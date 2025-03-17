@@ -3,6 +3,6 @@ import 'package:test/test.dart';
 
 void main() {
   test('has expected packageVersion', () {
-    expect(packageVersion, '0.5.0');
+    expect(packageVersion, '0.5.1');
   });
 }

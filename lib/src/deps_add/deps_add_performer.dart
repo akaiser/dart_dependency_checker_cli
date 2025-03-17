@@ -20,15 +20,15 @@ class DepsAddPerformer extends lib.DepsAddPerformer with PerformerMixin {
     final path = params.path;
 
     try {
-      super.perform();
+      final result = super.perform();
 
       logParams = LogParams(
-        ResultsStatus.clear,
+        result ? ResultsStatus.clear : ResultsStatus.warning,
         path,
-        message: 'Added packages.',
+        message: result ? 'Packages added.' : 'No packages added.',
         results: DepsAddResults(
-          mainDependencies: params.main,
-          devDependencies: params.dev,
+          mainDependencies: result ? params.main : const {},
+          devDependencies: result ? params.dev : const {},
         ),
       );
     } on lib.PerformerError catch (e) {
