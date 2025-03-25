@@ -3,6 +3,7 @@
 - Bump `ddc` to `0.4.5`.
     - The `deps-add` places SDK packages on top.
     - Performance improvements on file write operations.
+- Fix stacktrace output when command not provided.
 
 ## 0.5.1
 
