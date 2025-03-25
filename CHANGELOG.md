@@ -1,3 +1,9 @@
+## 0.5.2
+
+- Bump `ddc` to `0.4.5`.
+    - The `deps-add` places SDK packages on top.
+    - Performance improvements on file write operations.
+
 ## 0.5.1
 
 - The `deps-add` command does a little new lines cleanup.
