@@ -12,7 +12,7 @@ Future<int?> run(List<String> args) async {
       stdout.writeln('v$packageVersion');
       return null;
     }
-    return runner.run(args);
+    return await runner.run(args);
   } on UsageException catch (e) {
     stderr.writeln(e);
     return 64;

@@ -1,4 +1,3 @@
-import 'package:args/command_runner.dart';
 import 'package:dart_dependency_checker_cli/src/runner.dart';
 import 'package:test/test.dart';
 
@@ -7,6 +6,10 @@ import '_paths.dart';
 void main() {
   test('gives 64 as result when unknown flag provided', () async {
     expect(await run(const ['-q']), 64);
+  });
+
+  test('gives 64 as result when unknown command provided', () async {
+    expect(await run(const ['unknown']), 64);
   });
 
   test('gives null as result when known -h provided', () async {
@@ -19,19 +22,6 @@ void main() {
 
   test('gives null as result when no command provided', () async {
     expect(await run(const []), isNull);
-  });
-
-  test('throws $UsageException when invalid command provided', () {
-    expect(
-      () => run(const ['invalid']),
-      throwsA(
-        isA<UsageException>().having(
-          (exception) => exception.message,
-          'message',
-          'Could not find a command named "invalid".',
-        ),
-      ),
-    );
   });
 
   test(
