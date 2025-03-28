@@ -8,6 +8,7 @@ import 'package:test/test.dart';
 
 import '../_fake_results_logger.dart';
 import '../_paths.dart';
+import '../_util.dart';
 
 void main() {
   late FakeResultsLogger logger;
@@ -221,12 +222,4 @@ void main() {
       });
     });
   });
-}
-
-extension on File {
-  String get read => readAsStringSync();
-}
-
-extension on String {
-  String get read => File(this).read;
 }

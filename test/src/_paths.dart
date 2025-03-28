@@ -1,13 +1,14 @@
-const //
-    allSourcesDirsPath = 'test/resources/samples/all_sources_dirs',
-    allSourcesDirsMultiPath = 'test/resources/samples/all_sources_dirs_multi',
-    emptyYamlPath = 'test/resources/samples/empty_yaml',
-    meantForAddingPath = 'test/resources/samples/meant_for_adding',
-    meantForAddingNoNodesPath =
-        'test/resources/samples/meant_for_adding_no_nodes',
-    meantForFixingPath = 'test/resources/samples/meant_for_fixing',
-    meantForFixingEmptyPath = 'test/resources/samples/meant_for_fixing_empty',
-    noDependenciesPath = 'test/resources/samples/no_dependencies',
-    noSourcesDirsPath = 'test/resources/samples/no_sources_dirs',
-    yamlAndYmlFilesPath = 'test/resources/samples/yaml_and_yml_files',
-    ymlFilePath = 'test/resources/samples/yml_file';
+const _base = 'test/resources/samples',
+    allSourcesDirsPath = '$_base/all_sources_dirs',
+    allSourcesDirsMultiPath = '$_base/all_sources_dirs_multi',
+    emptyYamlPath = '$_base/empty_yaml',
+    meantForAddingPath = '$_base/meant_for_adding',
+    meantForAddingNoNodesPath = '$_base/meant_for_adding_no_nodes',
+    meantForFixingPath = '$_base/meant_for_fixing',
+    meantForFixingEmptyPath = '$_base/meant_for_fixing_empty',
+    meantForSortingPath = '$_base/meant_for_sorting',
+    meantForSortingNoNodesPath = '$_base/meant_for_sorting_no_nodes',
+    noDependenciesPath = '$_base/no_dependencies',
+    noSourcesDirsPath = '$_base/no_sources_dirs',
+    yamlAndYmlFilesPath = '$_base/yaml_and_yml_files',
+    ymlFilePath = '$_base/yml_file';

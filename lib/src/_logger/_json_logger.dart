@@ -12,14 +12,22 @@ abstract final class JsonLogger {
 }
 
 extension on LogParams {
-  String toJsonString() => jsonEncode({
-        'path': path,
-        'message': message,
-        'exitCode': resultStatus.exitCode,
-        'error': error,
+  String toJsonString() {
+    final mainDependencies = results?.mainDependencies.unmodifiable;
+    final devDependencies = results?.devDependencies.unmodifiable;
+
+    return jsonEncode({
+      'path': path,
+      'message': message,
+      'exitCode': resultStatus.exitCode,
+      'error': error,
+      if (mainDependencies == null && devDependencies == null)
+        'results': null
+      else
         'results': {
-          'mainDependencies': results?.mainDependencies.unmodifiable,
-          'devDependencies': results?.devDependencies.unmodifiable,
+          'mainDependencies': mainDependencies,
+          'devDependencies': devDependencies,
         },
-      });
+    });
+  }
 }
