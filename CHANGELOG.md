@@ -1,3 +1,7 @@
+## 1.0.1
+
+- Lower `ddc` version constraint.
+
 ## 1.0.0
 
 - Add `deps-sort` with `ds` as shorthand command.
