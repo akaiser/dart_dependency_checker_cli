@@ -29,4 +29,9 @@ ddc deps-add -p /some/package --main equatable:2.0.7,meta:^1.3.0 --dev some_path
 ## with aliases
 ddc da -p /some/package --m equatable:2.0.7,meta:^1.3.0 --d some_path_source:path=../some_path_dependency
 
+# Dependencies sort command
+ddc deps-sort -p /some/package
+## with aliases
+ddc ds -p /some/package
+
 ```

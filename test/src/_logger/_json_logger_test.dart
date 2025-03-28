@@ -21,7 +21,7 @@ void main() {
 
     expect(
       '$buffer',
-      '{"path":"any/path","message":"All clear!","exitCode":0,"error":null,"results":{"mainDependencies":null,"devDependencies":null}}\n',
+      '{"path":"any/path","message":"All clear!","exitCode":0,"error":null,"results":null}\n',
     );
   });
 
@@ -57,7 +57,7 @@ void main() {
 
     expect(
       '$buffer',
-      '{"path":"any/path","message":null,"exitCode":2,"error":"Explosion somewhere!","results":{"mainDependencies":null,"devDependencies":null}}\n',
+      '{"path":"any/path","message":null,"exitCode":2,"error":"Explosion somewhere!","results":null}\n',
     );
   });
 }

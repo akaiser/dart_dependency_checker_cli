@@ -8,6 +8,7 @@ import 'package:test/test.dart';
 
 import '../_fake_results_logger.dart';
 import '../_paths.dart';
+import '../_util.dart';
 
 void main() {
   late FakeResultsLogger logger;
@@ -42,7 +43,7 @@ void main() {
 
     tearDown(() => sourceFile.writeAsStringSync(sourceContent));
 
-    test('will add dependencies when dependencies provided', () {
+    test('will add all dependencies', () {
       const params = lib.DepsAddParams(
         path: sourcePath,
         main: {
@@ -50,12 +51,10 @@ void main() {
           'yaml: 3.1.3',
           'some_path_source :path= ../some_path_dependency',
           'some_git_source: git=https://github.com/munificent/kittens.git',
-          'flutter: sdk=flutter',
-          'flutter_localizations: sdk=flutter',
         },
         dev: {
+          'test: ^1.16.0',
           'build_runner: 2.4.15',
-          'flutter_test: sdk=flutter',
         },
       );
 
@@ -77,12 +76,10 @@ void main() {
               'yaml: 3.1.3',
               'some_path_source :path= ../some_path_dependency',
               'some_git_source: git=https://github.com/munificent/kittens.git',
-              'flutter: sdk=flutter',
-              'flutter_localizations: sdk=flutter',
             },
             devDependencies: {
+              'test: ^1.16.0',
               'build_runner: 2.4.15',
-              'flutter_test: sdk=flutter',
             },
           ),
         ),
@@ -149,7 +146,6 @@ void main() {
 
     test('will not modify file', () async {
       final lastModifiedBefore = sourceFile.modified;
-
       const params = lib.DepsAddParams(
         path: sourcePath,
         main: {'equatable:^2.0.7'},
@@ -161,14 +157,4 @@ void main() {
       expect(lastModifiedBefore.isAtSameMomentAs(sourceFile.modified), isTrue);
     });
   });
-}
-
-extension on File {
-  String get read => readAsStringSync();
-
-  DateTime get modified => statSync().modified;
-}
-
-extension on String {
-  String get read => File(this).read;
 }

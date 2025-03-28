@@ -1,7 +1,10 @@
+## 1.0.0
+
+- Add `deps-sort` with `ds` as shorthand command.
+
 ## 0.5.2
 
 - Bump `ddc` to `0.4.5`.
-    - The `deps-add` places SDK packages on top.
     - Performance improvements on file write operations.
 - Fix stacktrace output when command not provided.
 
