@@ -1,37 +1,102 @@
-## Usage
-
-Install:
+### Installation
 
 ```bash
 dart pub global activate dart_dependency_checker_cli
 ```
 
-Run:
+### Command `deps-used`
+
+Lists all dependencies that are actively used in the project's codebase.
+
+#### Arguments:
 
 ```
-# Dependencies used command
-ddc deps-used -p /some/package
-## with alias
-ddc du -p /some/package
+-p, --path=<path>     Path to valid pubspec.yaml.
+    --main-ignores    Comma separated list of main dependencies to be ignored.
+    --dev-ignores     Comma separated list of dev dependencies to be ignored.
+    --[no-]json       Output in json format.
+```
 
-# Dependencies unused command
-ddc deps-unused -p /some/package --dev-ignores lints,build_runner
-## with aliases
-ddc dun -p /some/package --di lints,build_runner
+#### Example:
 
-# Transitive use command
-ddc transitive-use -p /some/package --main-ignores async,meta
-## with aliases
-ddc tu -p /some/package --mi async,meta
+```bash
+ddc deps-used --main-ignores http,path_provider --json
+```
 
-# Dependencies add command
-ddc deps-add -p /some/package --main equatable:2.0.7,meta:^1.3.0 --dev some_path_source:path=../some_path_dependency
-## with aliases
-ddc da -p /some/package --m equatable:2.0.7,meta:^1.3.0 --d some_path_source:path=../some_path_dependency
+### Command `deps-unused`
 
-# Dependencies sort command
-ddc deps-sort -p /some/package
-## with aliases
-ddc ds -p /some/package
+Lists dependencies that are declared in the `pubspec.yaml` file but are not utilized in the project's codebase.
 
+#### Arguments:
+
+```
+-p, --path=<path>     Path to valid pubspec.yaml.
+    --main-ignores    Comma separated list of main dependencies to be ignored.
+    --dev-ignores     Comma separated list of dev dependencies to be ignored.
+    --[no-]fix        Instant cleanup after checker run.
+    --[no-]json       Output in json format.
+```
+
+#### Example:
+
+```bash
+ddc deps-unused --dev-ignores lints,build_runner --fix
+```
+
+### Command `transitive-use`
+
+Finds instances where transitive dependencies are used directly in the project without being explicitly declared in
+`pubspec.yaml`.
+
+#### Arguments:
+
+```
+-p, --path=<path>     Path to valid pubspec.yaml.
+    --main-ignores    Comma separated list of main dependencies to be ignored.
+    --dev-ignores     Comma separated list of dev dependencies to be ignored.
+    --[no-]json       Output in json format.
+```
+
+#### Example:
+
+```bash
+ddc transitive-use --main-ignores async,meta
+```
+
+### Command `deps-add`
+
+Blindly adds specified dependencies to the `pubspec.yaml` file. Supports adding both main and dev dependencies,
+including those from path or git sources.
+
+#### Arguments:
+
+```
+-p, --path=<path>    Path to valid pubspec.yaml.
+    --main           Comma separated list of main dependencies.
+    --dev            Comma separated list of dev dependencies.
+    --[no-]json      Output in json format.
+```
+
+#### Example:
+
+```bash
+ddc deps-add --main equatable:2.0.7,meta:^1.3.0 --dev some_path_source:path=../some_path_dependency
+```
+
+### Command `deps-sort`
+
+Sorts the dependencies listed in the `pubspec.yaml` file, organizing them in a standardized order for better readability
+and maintenance.
+
+#### Arguments:
+
+```
+-p, --path=<path>    Path to valid pubspec.yaml.
+    --[no-]json      Output in json format.
+```
+
+#### Example:
+
+```bash
+ddc deps-sort
 ```
