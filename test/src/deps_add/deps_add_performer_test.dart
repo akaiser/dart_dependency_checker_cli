@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
 import 'package:dart_dependency_checker_cli/src/_logger/log_params.dart';
 import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
@@ -7,13 +5,17 @@ import 'package:dart_dependency_checker_cli/src/deps_add/deps_add_performer.dart
 import 'package:test/test.dart';
 
 import '../_fake_results_logger.dart';
+import '../_file_arrange_builder.dart';
 import '../_paths.dart';
-import '../_util.dart';
 
 void main() {
   late FakeResultsLogger logger;
+  late FileArrangeBuilder builder;
 
-  setUp(() => logger = FakeResultsLogger());
+  setUp(() {
+    logger = FakeResultsLogger();
+    builder = FileArrangeBuilder();
+  });
 
   DepsAddPerformer tested(lib.DepsAddParams params) => DepsAddPerformer(
         params,
@@ -38,10 +40,10 @@ void main() {
 
   group('providing $meantForAddingPath path', () {
     const sourcePath = meantForAddingPath;
-    final sourceFile = File('$sourcePath/pubspec.yaml');
-    final sourceContent = sourceFile.read;
 
-    tearDown(() => sourceFile.writeAsStringSync(sourceContent));
+    setUp(() => builder.init(sourcePath));
+
+    tearDown(() => builder.reset());
 
     test('will add all dependencies', () {
       const params = lib.DepsAddParams(
@@ -60,10 +62,6 @@ void main() {
 
       tested(params).performWithExit();
 
-      expect(
-        sourceFile.read,
-        '$sourcePath/expected.yaml'.read,
-      );
       expect(
         logger.params,
         const LogParams(
@@ -84,6 +82,7 @@ void main() {
           ),
         ),
       );
+      expect(builder.readFile, builder.readExpectedFile);
     });
 
     test('will not add anything when no dependencies provided', () {
@@ -107,15 +106,19 @@ void main() {
           ),
         ),
       );
+      expect(
+        builder.fileCreatedAt.isAtSameMomentAs(builder.fileModifiedAt),
+        isTrue,
+      );
     });
   });
 
   group('providing $meantForAddingNoNodesPath path', () {
     const sourcePath = meantForAddingNoNodesPath;
-    final sourceFile = File('$sourcePath/pubspec.yaml');
-    final sourceContent = sourceFile.read;
 
-    tearDown(() => sourceFile.writeAsStringSync(sourceContent));
+    setUp(() => builder.init(sourcePath));
+
+    tearDown(() => builder.reset());
 
     test('will not add anything even when dependencies provided', () {
       const params = lib.DepsAddParams(
@@ -126,10 +129,6 @@ void main() {
 
       tested(params).performWithExit();
 
-      expect(
-        sourceFile.read,
-        '$sourcePath/expected.yaml'.read,
-      );
       expect(
         logger.params,
         const LogParams(
@@ -142,10 +141,10 @@ void main() {
           ),
         ),
       );
+      expect(builder.readFile, builder.readExpectedFile);
     });
 
     test('will not modify file', () async {
-      final lastModifiedBefore = sourceFile.modified;
       const params = lib.DepsAddParams(
         path: sourcePath,
         main: {'equatable:^2.0.7'},
@@ -154,7 +153,10 @@ void main() {
 
       tested(params).performWithExit();
 
-      expect(lastModifiedBefore.isAtSameMomentAs(sourceFile.modified), isTrue);
+      expect(
+        builder.fileCreatedAt.isAtSameMomentAs(builder.fileModifiedAt),
+        isTrue,
+      );
     });
   });
 }

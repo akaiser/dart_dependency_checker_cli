@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
 import 'package:dart_dependency_checker_cli/src/_logger/log_params.dart';
 import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
@@ -7,13 +5,18 @@ import 'package:dart_dependency_checker_cli/src/deps_unused/deps_unused_checker.
 import 'package:test/test.dart';
 
 import '../_fake_results_logger.dart';
+import '../_file_arrange_builder.dart';
 import '../_paths.dart';
 import '../_util.dart';
 
 void main() {
   late FakeResultsLogger logger;
+  late FileArrangeBuilder builder;
 
-  setUp(() => logger = FakeResultsLogger());
+  setUp(() {
+    logger = FakeResultsLogger();
+    builder = FileArrangeBuilder();
+  });
 
   DepsUnusedChecker tested(lib.DepsUnusedParams params) => DepsUnusedChecker(
         params,
@@ -153,12 +156,12 @@ void main() {
   });
 
   group('with "fix" flag', () {
+    tearDown(() => builder.reset());
+
     group('providing $meantForFixingPath path', () {
       const sourcePath = meantForFixingPath;
-      final sourceFile = File('$sourcePath/pubspec.yaml');
-      final sourceContent = sourceFile.read;
 
-      tearDown(() => sourceFile.writeAsStringSync(sourceContent));
+      setUp(() => builder.init(sourcePath));
 
       test('cleanes source file', () {
         const params = lib.DepsUnusedParams(
@@ -187,10 +190,7 @@ void main() {
             ),
           ),
         );
-        expect(
-          sourceFile.read,
-          '$sourcePath/expected.yaml'.read,
-        );
+        expect(builder.readFile, builder.readExpectedFile);
       });
 
       test('leaves blank dependency sections', () {
@@ -204,7 +204,7 @@ void main() {
         tested(params).performWithExit();
 
         expect(
-          sourceFile.read,
+          builder.readFile,
           '$sourcePath/expected_empty_dependencies.yaml'.read,
         );
       });
@@ -212,10 +212,8 @@ void main() {
 
     group('providing $meantForFixingEmptyPath path', () {
       const sourcePath = meantForFixingEmptyPath;
-      final sourceFile = File('$sourcePath/pubspec.yaml');
-      final sourceContent = sourceFile.read;
 
-      tearDown(() => sourceFile.writeAsStringSync(sourceContent));
+      setUp(() => builder.init(sourcePath));
 
       test('passes with no changes', () {
         const params = lib.DepsUnusedParams(
@@ -235,10 +233,7 @@ void main() {
             message: 'All clear!',
           ),
         );
-        expect(
-          sourceFile.read,
-          '$sourcePath/expected.yaml'.read,
-        );
+        expect(builder.readFile, builder.readExpectedFile);
       });
     });
   });
