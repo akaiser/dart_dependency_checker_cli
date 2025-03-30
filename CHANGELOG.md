@@ -1,3 +1,7 @@
+## 1.0.2
+
+- Update documentation and examples.
+
 ## 1.0.1
 
 - Lower `ddc` version constraint.
