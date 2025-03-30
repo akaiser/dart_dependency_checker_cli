@@ -176,6 +176,18 @@ void main() {
         tested(params).performWithExit();
 
         expect(
+          logger.params,
+          const LogParams(
+            ResultsStatus.clear,
+            sourcePath,
+            message: 'Removed unused packages.',
+            results: lib.DepsUnusedResults(
+              mainDependencies: {'meta', 'bla_analytics'},
+              devDependencies: {'integration_test', 'lints', 'bla_test_bed'},
+            ),
+          ),
+        );
+        expect(
           sourceFile.read,
           '$sourcePath/expected.yaml'.read,
         );
@@ -215,6 +227,14 @@ void main() {
 
         tested(params).performWithExit();
 
+        expect(
+          logger.params,
+          const LogParams(
+            ResultsStatus.clear,
+            sourcePath,
+            message: 'All clear!',
+          ),
+        );
         expect(
           sourceFile.read,
           '$sourcePath/expected.yaml'.read,

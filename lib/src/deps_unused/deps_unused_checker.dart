@@ -31,7 +31,7 @@ class DepsUnusedChecker extends lib.DepsUnusedChecker with PerformerMixin {
           : LogParams(
               params.fix ? ResultsStatus.clear : ResultsStatus.warning,
               path,
-              message: '${params.fix ? 'Fixed' : 'Found'} unused packages.',
+              message: '${params.fix ? 'Removed' : 'Found'} unused packages.',
               results: results,
             );
     } on lib.PerformerError catch (e) {
