@@ -210,8 +210,8 @@ void main() {
       });
     });
 
-    group('providing $meantForFixingEmptyPath path', () {
-      const sourcePath = meantForFixingEmptyPath;
+    group('providing $noNodesPath path', () {
+      const sourcePath = noNodesPath;
 
       setUp(() => builder.init(sourcePath));
 

@@ -113,8 +113,8 @@ void main() {
     });
   });
 
-  group('providing $meantForAddingNoNodesPath path', () {
-    const sourcePath = meantForAddingNoNodesPath;
+  group('providing $noNodesPath path', () {
+    const sourcePath = noNodesPath;
 
     setUp(() => builder.init(sourcePath));
 

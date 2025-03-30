@@ -62,8 +62,8 @@ void main() {
     });
   });
 
-  group('providing $meantForSortingNoNodesPath path', () {
-    const sourcePath = meantForSortingNoNodesPath;
+  group('providing $noNodesPath path', () {
+    const sourcePath = noNodesPath;
 
     setUp(() => builder.init(sourcePath));
 
