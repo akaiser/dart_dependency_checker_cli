@@ -52,7 +52,7 @@ void main() {
           'equatable:^2.0.7',
           'yaml: 3.1.3',
           'some_path_source :path= ../some_path_dependency',
-          'some_git_source: git=https://github.com/munificent/kittens.git',
+          'yaansi: git=https://github.com/akaiser/yaansi',
         },
         dev: {
           'test: ^1.16.0',
@@ -73,7 +73,7 @@ void main() {
               'equatable:^2.0.7',
               'yaml: 3.1.3',
               'some_path_source :path= ../some_path_dependency',
-              'some_git_source: git=https://github.com/munificent/kittens.git',
+              'yaansi: git=https://github.com/akaiser/yaansi',
             },
             devDependencies: {
               'test: ^1.16.0',

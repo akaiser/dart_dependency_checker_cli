@@ -25,8 +25,9 @@ dependencies:
       ref: e48abe7c3e9ebfe0b81622167c5201d4e783bb81
 
 
-  some_git_source:
-    git: https://github.com/munificent/kittens.git
+  yaansi:
+    git: https://github.com/akaiser/yaansi.git
+  path: ^1.9.1
 
   yaml: 3.1.3
 
