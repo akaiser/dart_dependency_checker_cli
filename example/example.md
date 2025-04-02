@@ -6,7 +6,7 @@ dart pub global activate dart_dependency_checker_cli
 
 ### Command `deps-used`
 
-Lists all dependencies that are actively used in the project's codebase.
+Lists dependencies that are actively used in the project's codebase.
 
 #### Arguments:
 
@@ -25,7 +25,8 @@ ddc deps-used --main-ignores http,path_provider --json
 
 ### Command `deps-unused`
 
-Lists dependencies that are declared in the `pubspec.yaml` file but are not utilized in the project's codebase.
+Lists dependencies that are declared in the `pubspec.yaml` file but are not utilized in the project's codebase. Supports
+an instant fix during run.
 
 #### Arguments:
 
@@ -45,8 +46,7 @@ ddc deps-unused --dev-ignores lints,build_runner --fix
 
 ### Command `transitive-use`
 
-Finds instances where transitive dependencies are used directly in the project without being explicitly declared in
-`pubspec.yaml`.
+Lists dependencies that are used directly in the project without being explicitly declared in the `pubspec.yaml` file.
 
 #### Arguments:
 

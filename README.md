@@ -7,9 +7,9 @@ for checking dependencies within Dart/Flutter packages.
 
 | Command          | Alias | Description                                                                                                                                               |
 |------------------|-------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `deps-used`      | `du`  | Lists all dependencies that are actively used in the project's codebase.                                                                                  |
-| `deps-unused`    | `dun` | Lists dependencies that are declared in the `pubspec.yaml` file but are not utilized in the project's codebase.                                           |
-| `transitive-use` | `tu`  | Finds instances where transitive dependencies are used directly in the project without being explicitly declared in `pubspec.yaml`.                       |
+| `deps-used`      | `du`  | Lists dependencies that are actively used in the project's codebase.                                                                                      |
+| `deps-unused`    | `dun` | Lists dependencies that are declared in the `pubspec.yaml` file but are not utilized in the project's codebase. Supports an instant fix during run.       |
+| `transitive-use` | `tu`  | Lists dependencies that are used directly in the project without being explicitly declared in the `pubspec.yaml` file.                                    |
 | `deps-add`       | `da`  | Blindly adds specified dependencies to the `pubspec.yaml` file. Supports adding both main and dev dependencies, including those from path or git sources. |
 | `deps-sort`      | `ds`  | Sorts the dependencies listed in the `pubspec.yaml` file, organizing them in a standardized order for better readability and maintenance.                 |
 
@@ -23,7 +23,7 @@ dart pub global activate dart_dependency_checker_cli
 
 ### Command `deps-used`
 
-Lists all dependencies that are actively used in the project's codebase.
+Lists dependencies that are actively used in the project's codebase.
 
 #### Arguments:
 
@@ -42,7 +42,8 @@ ddc deps-used --main-ignores http,path_provider --json
 
 ### Command `deps-unused`
 
-Lists dependencies that are declared in the `pubspec.yaml` file but are not utilized in the project's codebase.
+Lists dependencies that are declared in the `pubspec.yaml` file but are not utilized in the project's codebase. Supports
+an instant fix during run.
 
 #### Arguments:
 
@@ -62,8 +63,7 @@ ddc deps-unused --dev-ignores lints,build_runner --fix
 
 ### Command `transitive-use`
 
-Finds instances where transitive dependencies are used directly in the project without being explicitly declared in
-`pubspec.yaml`.
+Lists dependencies that are used directly in the project without being explicitly declared in the `pubspec.yaml` file.
 
 #### Arguments:
 
