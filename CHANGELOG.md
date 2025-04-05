@@ -1,8 +1,7 @@
 ## 1.0.3
 
-- Bump `ddc` to `1.0.3`.
+- Bump `ddc` to `1.0.4`.
 - Update test infra and docs.
-- TODO(Albert): remove once ready.
 
 ## 1.0.2
 
