@@ -165,10 +165,10 @@ packages:
     dependency: "direct main"
     description:
       name: dart_dependency_checker
-      sha256: cd8efabad0fb5518a03cd649e2e684c1129296d6409599c263f3e44a17746004
+      sha256: "2b5589310338153783ecb7c43b2b8dec9bb6354be615ddd548085d3a4d73f400"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.5"
   dart_style:
     dependency: transitive
     description:
