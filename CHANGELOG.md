@@ -1,3 +1,7 @@
+## NEXT
+
+- Bump `ddc` to `1.0.5`.
+
 ## 1.0.3
 
 - Bump `ddc` to `1.0.4`.
