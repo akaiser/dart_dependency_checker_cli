@@ -103,8 +103,8 @@ ddc deps-add --main equatable:2.0.7,meta:^1.3.0 --dev some_path_source:path=../s
 
 ### Command `deps-update`
 
-Updates provided but only existing main and dev dependencies in a `pubspec.yaml` file. Supports adding both main and dev
-dependencies, including those from path or git sources.
+Updates provided but only existing main and dev dependencies in a `pubspec.yaml` file. Supports updating both main and
+dev dependencies, including those from path or git sources.
 
 #### Arguments:
 
