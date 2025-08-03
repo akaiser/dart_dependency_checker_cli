@@ -83,6 +83,26 @@ including those from path or git sources.
 ddc deps-add --main equatable:2.0.7,meta:^1.3.0 --dev some_path_source:path=../some_path_dependency
 ```
 
+### Command `deps-update`
+
+Updates provided but only existing main and dev dependencies in a `pubspec.yaml` file. Supports updating both main and
+dev dependencies, including those from path or git sources.
+
+#### Arguments:
+
+```
+-p, --path=<path>    Path to valid pubspec.yaml.
+    --main           Comma separated list of main dependencies.
+    --dev            Comma separated list of dev dependencies.
+    --[no-]json      Output in json format.
+```
+
+#### Example:
+
+```bash
+ddc deps-update --main equatable:2.0.7,meta:^1.3.0 --dev some_path_source:path=../some_path_dependency
+```
+
 ### Command `deps-sort`
 
 Sorts the dependencies listed in the `pubspec.yaml` file, organizing them in a standardized order for better readability

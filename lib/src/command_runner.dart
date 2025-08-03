@@ -2,6 +2,7 @@ import 'package:args/command_runner.dart' as args;
 import 'package:dart_dependency_checker_cli/src/deps_add/deps_add_command.dart';
 import 'package:dart_dependency_checker_cli/src/deps_sort/deps_sort_command.dart';
 import 'package:dart_dependency_checker_cli/src/deps_unused/deps_unused_command.dart';
+import 'package:dart_dependency_checker_cli/src/deps_update/deps_update_command.dart';
 import 'package:dart_dependency_checker_cli/src/deps_used/deps_used_command.dart';
 import 'package:dart_dependency_checker_cli/src/transitive_use/transitive_use_command.dart';
 
@@ -21,6 +22,7 @@ final class CommandRunner extends args.CommandRunner<int> {
     addCommand(DepsAddCommand());
     addCommand(DepsSortCommand());
     addCommand(DepsUnusedCommand());
+    addCommand(DepsUpdateCommand());
     addCommand(DepsUsedCommand());
     addCommand(TransitiveUseCommand());
   }
