@@ -1,6 +1,6 @@
-## NEXT
+## 1.0.4
 
-- Bump `ddc` to `1.0.5`.
+- Add `deps-update` with `dup` as shorthand command.
 
 ## 1.0.3
 

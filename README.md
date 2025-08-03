@@ -5,13 +5,14 @@ for checking and fixing dependencies within Dart/Flutter packages.
 
 ## Available commands
 
-| Command          | Alias | Description                                                                                                                                               |
-|------------------|-------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `deps-used`      | `du`  | Lists dependencies that are actively used in the project's codebase.                                                                                      |
-| `deps-unused`    | `dun` | Lists dependencies that are declared in the `pubspec.yaml` file but are not utilized in the project's codebase. Supports an instant fix during run.       |
-| `transitive-use` | `tu`  | Lists dependencies that are used directly in the project without being explicitly declared in the `pubspec.yaml` file.                                    |
-| `deps-add`       | `da`  | Blindly adds specified dependencies to the `pubspec.yaml` file. Supports adding both main and dev dependencies, including those from path or git sources. |
-| `deps-sort`      | `ds`  | Sorts the dependencies listed in the `pubspec.yaml` file, organizing them in a standardized order for better readability and maintenance.                 |
+| Command          | Alias | Description                                                                                                                                                                        |
+|------------------|-------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `deps-used`      | `du`  | Lists dependencies that are actively used in the project's codebase.                                                                                                               |
+| `deps-unused`    | `dun` | Lists dependencies that are declared in the `pubspec.yaml` file but are not utilized in the project's codebase. Supports an instant fix during run.                                |
+| `transitive-use` | `tu`  | Lists dependencies that are used directly in the project without being explicitly declared in the `pubspec.yaml` file.                                                             |
+| `deps-add`       | `da`  | Blindly adds specified dependencies to the `pubspec.yaml` file. Supports adding both main and dev dependencies, including those from path or git sources.                          |
+| `deps-update`    | `dup` | Updates provided but only existing main and dev dependencies in a `pubspec.yaml` file. Supports updating both main and dev dependencies, including those from path or git sources. |
+| `deps-sort`      | `ds`  | Sorts the dependencies listed in the `pubspec.yaml` file, organizing them in a standardized order for better readability and maintenance.                                          |
 
 ## Usage
 
@@ -98,6 +99,26 @@ including those from path or git sources.
 
 ```bash
 ddc deps-add --main equatable:2.0.7,meta:^1.3.0 --dev some_path_source:path=../some_path_dependency
+```
+
+### Command `deps-update`
+
+Updates provided but only existing main and dev dependencies in a `pubspec.yaml` file. Supports adding both main and dev
+dependencies, including those from path or git sources.
+
+#### Arguments:
+
+```
+-p, --path=<path>    Path to valid pubspec.yaml.
+    --main           Comma separated list of main dependencies.
+    --dev            Comma separated list of dev dependencies.
+    --[no-]json      Output in json format.
+```
+
+#### Example:
+
+```bash
+ddc deps-update --main equatable:2.0.7,meta:^1.3.0 --dev some_path_source:path=../some_path_dependency
 ```
 
 ### Command `deps-sort`

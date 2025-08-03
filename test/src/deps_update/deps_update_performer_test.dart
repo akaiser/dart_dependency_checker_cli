@@ -1,7 +1,7 @@
 import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
 import 'package:dart_dependency_checker_cli/src/_logger/log_params.dart';
 import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
-import 'package:dart_dependency_checker_cli/src/deps_add/deps_add_performer.dart';
+import 'package:dart_dependency_checker_cli/src/deps_update/deps_update_performer.dart';
 import 'package:test/test.dart';
 
 import '../_fake_results_logger.dart';
@@ -13,14 +13,15 @@ void main() {
 
   setUp(() => logger = FakeResultsLogger());
 
-  DepsAddPerformer tested(lib.DepsAddParams params) => DepsAddPerformer(
+  DepsUpdatePerformer tested(lib.DepsUpdateParams params) =>
+      DepsUpdatePerformer(
         params,
         jsonOutput: false,
         logger: logger,
       );
 
   test('reports error on invalid pubspec.yaml path', () {
-    const params = lib.DepsAddParams(
+    const params = lib.DepsUpdateParams(
       path: 'unknown',
       main: {'test: 1.0.0'},
     );
@@ -39,7 +40,7 @@ void main() {
 
   group('reports validation error on invalid params', () {
     test('for main dependency', () {
-      const params = lib.DepsAddParams(
+      const params = lib.DepsUpdateParams(
         path: 'unknown',
         main: {'any_main'},
       );
@@ -57,7 +58,7 @@ void main() {
     });
 
     test('for dev dependency', () {
-      const params = lib.DepsAddParams(
+      const params = lib.DepsUpdateParams(
         path: 'unknown',
         main: {'any_dev'},
       );
@@ -86,8 +87,8 @@ void main() {
       setUp(() => builder.init(sourcePath));
       tearDown(() => builder.reset());
 
-      test('will not add anything even when dependencies provided', () {
-        const params = lib.DepsAddParams(
+      test('will not update anything even when dependencies provided', () {
+        const params = lib.DepsUpdateParams(
           path: sourcePath,
           main: {'equatable:^2.0.7', 'yaml: 3.1.3'},
           dev: {'test: ^1.16.0', 'build_runner: 2.4.15'},
@@ -100,18 +101,14 @@ void main() {
           const LogParams(
             ResultsStatus.warning,
             sourcePath,
-            message: 'No packages added.',
-            results: DepsAddResults(
-              mainDependencies: {},
-              devDependencies: {},
-            ),
+            message: 'No packages updated.',
           ),
         );
         expect(builder.readFile, builder.readExpectedFile);
       });
 
       test('will not modify file', () async {
-        const params = lib.DepsAddParams(
+        const params = lib.DepsUpdateParams(
           path: sourcePath,
           main: {'equatable:^2.0.7'},
           dev: {'test: ^1.16.0'},
@@ -127,57 +124,17 @@ void main() {
       });
     });
 
-    group('providing $meantForAddingPath path', () {
-      const sourcePath = meantForAddingPath;
+    group('providing $noDependenciesPath path', () {
+      const sourcePath = noDependenciesPath;
 
       setUp(() => builder.init(sourcePath));
       tearDown(() => builder.reset());
 
-      test('will add all dependencies', () {
-        const params = lib.DepsAddParams(
+      test('will not update anything even when dependencies provided', () {
+        const params = lib.DepsUpdateParams(
           path: sourcePath,
-          main: {
-            'equatable:^2.0.7',
-            'yaml: 3.1.3',
-            'some_path_source :path= ../some_path_dependency',
-            'yaansi: git=https://github.com/akaiser/yaansi',
-          },
-          dev: {
-            'test: ^1.16.0',
-            'build_runner: 2.4.15',
-          },
-        );
-
-        tested(params).performWithExit();
-
-        expect(
-          logger.params,
-          const LogParams(
-            ResultsStatus.clear,
-            sourcePath,
-            message: 'Packages added.',
-            results: DepsAddResults(
-              mainDependencies: {
-                'equatable:^2.0.7',
-                'yaml: 3.1.3',
-                'some_path_source :path= ../some_path_dependency',
-                'yaansi: git=https://github.com/akaiser/yaansi',
-              },
-              devDependencies: {
-                'test: ^1.16.0',
-                'build_runner: 2.4.15',
-              },
-            ),
-          ),
-        );
-        expect(builder.readFile, builder.readExpectedFile);
-      });
-
-      test('will not add anything when no dependencies provided', () {
-        const params = lib.DepsAddParams(
-          path: sourcePath,
-          main: {},
-          dev: {},
+          main: {'equatable:^2.0.7'},
+          dev: {'test: ^1.16.0'},
         );
 
         tested(params).performWithExit();
@@ -187,17 +144,82 @@ void main() {
           const LogParams(
             ResultsStatus.warning,
             sourcePath,
-            message: 'No packages added.',
-            results: DepsAddResults(
-              mainDependencies: {},
-              devDependencies: {},
-            ),
+            message: 'No packages updated.',
+          ),
+        );
+        expect(builder.readFile, builder.readExpectedFile);
+      });
+
+      test('will not modify file', () async {
+        const params = lib.DepsUpdateParams(
+          path: sourcePath,
+          main: {'equatable:^2.0.7'},
+          dev: {'test: ^1.16.0'},
+        );
+
+        final result = tested(params).performWithExit();
+
+        expect(result, 0);
+        expect(
+          builder.fileCreatedAt.isAtSameMomentAs(builder.fileModifiedAt),
+          isTrue,
+        );
+      });
+    });
+
+    group('providing $meantForUpdatingPath path', () {
+      const sourcePath = meantForUpdatingPath;
+
+      setUp(() => builder.init(sourcePath));
+      tearDown(() => builder.reset());
+
+      test('will not modify file on not matching deps', () async {
+        const params = lib.DepsUpdateParams(
+          path: sourcePath,
+          main: {'equatable:^2.0.7'},
+        );
+
+        final result = tested(params).performWithExit();
+
+        expect(result, 0);
+        expect(
+          logger.params,
+          const LogParams(
+            ResultsStatus.warning,
+            sourcePath,
+            message: 'No packages updated.',
           ),
         );
         expect(
           builder.fileCreatedAt.isAtSameMomentAs(builder.fileModifiedAt),
           isTrue,
         );
+      });
+
+      test('will update all matching dependencies', () async {
+        const params = lib.DepsUpdateParams(
+          path: sourcePath,
+          main: {
+            'args:^2.7.0',
+            'equatable:^2.0.7',
+            'some_path_source : path= ../some_path_dependency/new',
+            'some: git= https://any.git; ref=main',
+          },
+          dev: {'test: ^1.26.3'},
+        );
+
+        final result = tested(params).performWithExit();
+
+        expect(result, 0);
+        expect(
+          logger.params,
+          const LogParams(
+            ResultsStatus.clear,
+            sourcePath,
+            message: 'Packages updated.',
+          ),
+        );
+        expect(builder.readFile, builder.readExpectedFile);
       });
     });
   });

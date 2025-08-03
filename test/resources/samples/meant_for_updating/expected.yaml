@@ -1,0 +1,29 @@
+name: dart_dependency_checker_samples
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+
+  yaansi:
+    git: https://github.com/akaiser/yaansi.git
+  meta: ^1.11.0
+
+  args: ^2.7.0
+  some_path_source:
+    path: ../some_path_dependency/new
+  some:
+    git:
+      url: https://any.git
+      ref: main
+
+dev_dependencies:
+  integration_test:
+    sdk: any
+
+  lints: ^3.0.0
+
+  test: ^1.26.3
+
+flutter:
+  uses-material-design: true

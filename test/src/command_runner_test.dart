@@ -36,6 +36,8 @@ void main() {
           'ds',
           'deps-unused',
           'dun',
+          'deps-update',
+          'dup',
           'deps-used',
           'du',
           'transitive-use',
