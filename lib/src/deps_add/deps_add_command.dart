@@ -23,11 +23,11 @@ class DepsAddCommand extends Command<int> {
 
   @override
   int run() => DepsAddPerformer(
-        lib.DepsAddParams(
-          path: argResults.path,
-          main: argResults.main,
-          dev: argResults.dev,
-        ),
-        jsonOutput: argResults.json,
-      ).performWithExit();
+    lib.DepsAddParams(
+      path: argResults.path,
+      main: argResults.main,
+      dev: argResults.dev,
+    ),
+    jsonOutput: argResults.json,
+  ).performWithExit();
 }

@@ -2,58 +2,52 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 
-const // options
-    _path = 'path',
+// options
+const _path = 'path',
     _main = 'main',
     _dev = 'dev',
     _mainIgnores = 'main-ignores',
     _devIgnores = 'dev-ignores';
 
-const // flags
-    _fix = 'fix',
-    _json = 'json';
+// flags
+const _fix = 'fix', _json = 'json';
 
 extension ArgParserExt on ArgParser {
   void get withPathOption => addOption(
-        _path,
-        abbr: _path[0],
-        valueHelp: 'path',
-        help: 'Path to valid pubspec.yaml.',
-      );
+    _path,
+    abbr: _path[0],
+    valueHelp: 'path',
+    help: 'Path to valid pubspec.yaml.',
+  );
 
   void get withMainMultiOption => addMultiOption(
-        _main,
-        aliases: const ['m'],
-        help: 'Comma separated list of main dependencies.',
-      );
+    _main,
+    aliases: const ['m'],
+    help: 'Comma separated list of main dependencies.',
+  );
 
   void get withDevMultiOption => addMultiOption(
-        _dev,
-        aliases: const ['d'],
-        help: 'Comma separated list of dev dependencies.',
-      );
+    _dev,
+    aliases: const ['d'],
+    help: 'Comma separated list of dev dependencies.',
+  );
 
   void get withMainIgnoresMultiOption => addMultiOption(
-        _mainIgnores,
-        aliases: const ['mi'],
-        help: 'Comma separated list of main dependencies to be ignored.',
-      );
+    _mainIgnores,
+    aliases: const ['mi'],
+    help: 'Comma separated list of main dependencies to be ignored.',
+  );
 
   void get withDevIgnoresMultiOption => addMultiOption(
-        _devIgnores,
-        aliases: const ['di'],
-        help: 'Comma separated list of dev dependencies to be ignored.',
-      );
+    _devIgnores,
+    aliases: const ['di'],
+    help: 'Comma separated list of dev dependencies to be ignored.',
+  );
 
-  void get withFixFlag => addFlag(
-        _fix,
-        help: 'Instant cleanup after checker run.',
-      );
+  void get withFixFlag =>
+      addFlag(_fix, help: 'Instant cleanup after checker run.');
 
-  void get withJsonFlag => addFlag(
-        _json,
-        help: 'Output in json format.',
-      );
+  void get withJsonFlag => addFlag(_json, help: 'Output in json format.');
 }
 
 extension ArgResultsExt on ArgResults? {

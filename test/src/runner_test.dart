@@ -24,8 +24,7 @@ void main() {
     expect(await run(const []), isNull);
   });
 
-  test(
-      'gives 0 as result when deps-unused command '
+  test('gives 0 as result when deps-unused command '
       'and path to clean pubspec.yaml provided', () async {
     expect(await run(const ['deps-unused', '-p', noDependenciesPath]), 0);
   });

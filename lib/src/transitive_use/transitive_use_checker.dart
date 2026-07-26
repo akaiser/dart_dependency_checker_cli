@@ -1,7 +1,6 @@
 import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
 import 'package:dart_dependency_checker_cli/src/_logger/log_params.dart';
 import 'package:dart_dependency_checker_cli/src/_logger/results_logger.dart';
-import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
 import 'package:dart_dependency_checker_cli/src/_shared/performer_mixin.dart';
 
 class TransitiveUseChecker extends lib.TransitiveUseChecker
@@ -24,23 +23,15 @@ class TransitiveUseChecker extends lib.TransitiveUseChecker
       final results = super.perform();
 
       logParams = results.isEmpty
-          ? LogParams(
-              ResultsStatus.clear,
-              path,
-              message: 'All clear!',
-            )
+          ? LogParams(.clear, path, message: 'All clear!')
           : LogParams(
-              ResultsStatus.warning,
+              .warning,
               path,
               message: 'Found undeclared/transitive packages.',
               results: results,
             );
     } on lib.PerformerError catch (e) {
-      logParams = LogParams(
-        ResultsStatus.error,
-        path,
-        error: e.message,
-      );
+      logParams = LogParams(.error, path, error: e.message);
     }
 
     return logger.logWithExit(logParams, jsonOutput);

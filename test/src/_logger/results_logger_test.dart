@@ -9,25 +9,19 @@ void main() {
   setUp(() => tested = const ResultsLogger());
 
   test('logWithExit on ${ResultsStatus.clear}', () {
-    final exitCode = tested.logWithExit(
-      const LogParams(ResultsStatus.clear, 'any'),
-    );
+    final exitCode = tested.logWithExit(const LogParams(.clear, 'any'));
 
     expect(exitCode, 0);
   });
 
   test('logWithExit on ${ResultsStatus.warning}', () {
-    final exitCode = tested.logWithExit(
-      const LogParams(ResultsStatus.warning, 'any'),
-    );
+    final exitCode = tested.logWithExit(const LogParams(.warning, 'any'));
 
     expect(exitCode, 1);
   });
 
   test('logWithExit on ${ResultsStatus.error}', () {
-    final exitCode = tested.logWithExit(
-      const LogParams(ResultsStatus.error, 'any'),
-    );
+    final exitCode = tested.logWithExit(const LogParams(.error, 'any'));
 
     expect(exitCode, 2);
   });

@@ -10,6 +10,10 @@ environment:
 dependencies:
   args: ^2.4.2
 
+  some_hosted_source:
+    hosted: https://some-package-server.com
+    version: ^1.4.0
+
   bla_support:
     path: ../bla_support
 

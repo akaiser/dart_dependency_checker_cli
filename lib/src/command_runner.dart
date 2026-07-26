@@ -10,10 +10,10 @@ const versionFlag = 'version';
 
 final class CommandRunner extends args.CommandRunner<int> {
   CommandRunner()
-      : super(
-          'ddc',
-          'A utility package for checking dependencies within Dart/Flutter packages.',
-        ) {
+    : super(
+        'ddc',
+        'A utility package for checking dependencies within Dart/Flutter packages.',
+      ) {
     argParser.addFlag(
       versionFlag,
       negatable: false,

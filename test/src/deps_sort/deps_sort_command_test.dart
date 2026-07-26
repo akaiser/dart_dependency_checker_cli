@@ -23,10 +23,7 @@ void main() {
     final argParser = tested.argParser;
 
     test('has all expected options', () {
-      expect(
-        argParser.options.keys,
-        const ['help', 'path', 'json'],
-      );
+      expect(argParser.options.keys, const ['help', 'path', 'json']);
     });
 
     test('explodes on unknown flag', () {
@@ -44,26 +41,17 @@ void main() {
 
     group('help', () {
       test('not parsing -h when not provided', () {
-        expect(
-          argParser.parse(const {}).wasParsed('help'),
-          isFalse,
-        );
+        expect(argParser.parse(const {}).wasParsed('help'), isFalse);
       });
 
       test('parses -h', () {
-        expect(
-          argParser.parse(const {'-h'}).wasParsed('help'),
-          isTrue,
-        );
+        expect(argParser.parse(const {'-h'}).wasParsed('help'), isTrue);
       });
     });
 
     group('path', () {
       test('not parsing -p when not provided', () {
-        expect(
-          argParser.parse(const {}).wasParsed('path'),
-          isFalse,
-        );
+        expect(argParser.parse(const {}).wasParsed('path'), isFalse);
       });
 
       test('explodes on missing -p value', () {
@@ -80,10 +68,7 @@ void main() {
       });
 
       test('parses -p value', () {
-        expect(
-          argParser.parse(const {'-p', 'some/path'})['path'],
-          'some/path',
-        );
+        expect(argParser.parse(const {'-p', 'some/path'})['path'], 'some/path');
       });
 
       test('explodes on missing --path value', () {
@@ -109,24 +94,15 @@ void main() {
 
     group('json', () {
       test('not parsing --json when not provided', () {
-        expect(
-          argParser.parse(const {}).wasParsed('json'),
-          isFalse,
-        );
+        expect(argParser.parse(const {}).wasParsed('json'), isFalse);
       });
 
       test('parses --json as true value', () {
-        expect(
-          argParser.parse(const {'--json'})['json'],
-          isTrue,
-        );
+        expect(argParser.parse(const {'--json'})['json'], isTrue);
       });
 
       test('parses --no-json as false value', () {
-        expect(
-          argParser.parse(const {'--no-json'})['json'],
-          isFalse,
-        );
+        expect(argParser.parse(const {'--no-json'})['json'], isFalse);
       });
     });
   });

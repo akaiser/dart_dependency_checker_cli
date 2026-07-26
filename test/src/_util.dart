@@ -5,5 +5,5 @@ extension FileExt on File {
 }
 
 extension StringExt on String {
-  String get read => File(this).read;
+  File get file => .new(this);
 }

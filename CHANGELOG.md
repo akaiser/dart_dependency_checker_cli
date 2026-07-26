@@ -1,3 +1,9 @@
+## 1.1.0
+
+- Bump `dart_dependency_checker` to `^1.1.0`:
+  - Allow `export` directive when identifying libraries.
+- Require Dart `^3.12.0`.
+
 ## 1.0.4
 
 - Add `deps-update` with `dup` as shorthand command.

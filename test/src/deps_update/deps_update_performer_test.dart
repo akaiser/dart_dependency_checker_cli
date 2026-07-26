@@ -1,12 +1,12 @@
 import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
 import 'package:dart_dependency_checker_cli/src/_logger/log_params.dart';
-import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
 import 'package:dart_dependency_checker_cli/src/deps_update/deps_update_performer.dart';
 import 'package:test/test.dart';
 
 import '../_fake_results_logger.dart';
 import '../_file_arrange_builder.dart';
 import '../_paths.dart';
+import '../_util.dart';
 
 void main() {
   late FakeResultsLogger logger;
@@ -14,24 +14,17 @@ void main() {
   setUp(() => logger = FakeResultsLogger());
 
   DepsUpdatePerformer tested(lib.DepsUpdateParams params) =>
-      DepsUpdatePerformer(
-        params,
-        jsonOutput: false,
-        logger: logger,
-      );
+      DepsUpdatePerformer(params, jsonOutput: false, logger: logger);
 
   test('reports error on invalid pubspec.yaml path', () {
-    const params = lib.DepsUpdateParams(
-      path: 'unknown',
-      main: {'test: 1.0.0'},
-    );
+    const params = lib.DepsUpdateParams(path: 'unknown', main: {'test: 1.0.0'});
 
     tested(params).performWithExit();
 
     expect(
       logger.params,
       const LogParams(
-        ResultsStatus.error,
+        .error,
         'unknown',
         error: 'Invalid pubspec.yaml file path: unknown/pubspec.yaml',
       ),
@@ -40,17 +33,14 @@ void main() {
 
   group('reports validation error on invalid params', () {
     test('for main dependency', () {
-      const params = lib.DepsUpdateParams(
-        path: 'unknown',
-        main: {'any_main'},
-      );
+      const params = lib.DepsUpdateParams(path: 'unknown', main: {'any_main'});
 
       tested(params).performWithExit();
 
       expect(
         logger.params,
         const LogParams(
-          ResultsStatus.error,
+          .error,
           'unknown',
           error: 'Invalid params near: "any_main"',
         ),
@@ -58,17 +48,14 @@ void main() {
     });
 
     test('for dev dependency', () {
-      const params = lib.DepsUpdateParams(
-        path: 'unknown',
-        main: {'any_dev'},
-      );
+      const params = lib.DepsUpdateParams(path: 'unknown', main: {'any_dev'});
 
       tested(params).performWithExit();
 
       expect(
         logger.params,
         const LogParams(
-          ResultsStatus.error,
+          .error,
           'unknown',
           error: 'Invalid params near: "any_dev"',
         ),
@@ -99,12 +86,12 @@ void main() {
         expect(
           logger.params,
           const LogParams(
-            ResultsStatus.warning,
+            .warning,
             sourcePath,
             message: 'No packages updated.',
           ),
         );
-        expect(builder.readFile, builder.readExpectedFile);
+        expect(builder.file.read, builder.expectedFile.read);
       });
 
       test('will not modify file', () async {
@@ -142,12 +129,12 @@ void main() {
         expect(
           logger.params,
           const LogParams(
-            ResultsStatus.warning,
+            .warning,
             sourcePath,
             message: 'No packages updated.',
           ),
         );
-        expect(builder.readFile, builder.readExpectedFile);
+        expect(builder.file.read, builder.expectedFile.read);
       });
 
       test('will not modify file', () async {
@@ -176,7 +163,7 @@ void main() {
       test('will not modify file on not matching deps', () async {
         const params = lib.DepsUpdateParams(
           path: sourcePath,
-          main: {'equatable:^2.0.7'},
+          main: {'share_plus:^7.2.2'},
         );
 
         final result = tested(params).performWithExit();
@@ -185,7 +172,7 @@ void main() {
         expect(
           logger.params,
           const LogParams(
-            ResultsStatus.warning,
+            .warning,
             sourcePath,
             message: 'No packages updated.',
           ),
@@ -201,11 +188,15 @@ void main() {
           path: sourcePath,
           main: {
             'args:^2.7.0',
+            'path:^1.9.0',
+            'collection:^1.19.0',
             'equatable:^2.0.7',
+            'share_plus:^7.2.2', // not part of yaml file
+            'archive:^3.6.1',
             'some_path_source : path= ../some_path_dependency/new',
             'some: git= https://any.git; ref=main',
           },
-          dev: {'test: ^1.26.3'},
+          dev: {'test: ^1.26.3', 'mocktail:^1.0.4'},
         );
 
         final result = tested(params).performWithExit();
@@ -213,13 +204,9 @@ void main() {
         expect(result, 0);
         expect(
           logger.params,
-          const LogParams(
-            ResultsStatus.clear,
-            sourcePath,
-            message: 'Packages updated.',
-          ),
+          const LogParams(.clear, sourcePath, message: 'Packages updated.'),
         );
-        expect(builder.readFile, builder.readExpectedFile);
+        expect(builder.file.read, builder.expectedFile.read);
       });
     });
   });

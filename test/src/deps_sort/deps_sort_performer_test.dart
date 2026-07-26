@@ -1,12 +1,12 @@
 import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
 import 'package:dart_dependency_checker_cli/src/_logger/log_params.dart';
-import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
 import 'package:dart_dependency_checker_cli/src/deps_sort/deps_sort_performer.dart';
 import 'package:test/test.dart';
 
 import '../_fake_results_logger.dart';
 import '../_file_arrange_builder.dart';
 import '../_paths.dart';
+import '../_util.dart';
 
 void main() {
   late FakeResultsLogger logger;
@@ -17,11 +17,8 @@ void main() {
     builder = FileArrangeBuilder();
   });
 
-  DepsSortPerformer tested(lib.DepsSortParams params) => DepsSortPerformer(
-        params,
-        jsonOutput: false,
-        logger: logger,
-      );
+  DepsSortPerformer tested(lib.DepsSortParams params) =>
+      DepsSortPerformer(params, jsonOutput: false, logger: logger);
 
   test('reports error on invalid pubspec.yaml path', () {
     const params = lib.DepsSortParams(path: 'unknown');
@@ -31,7 +28,7 @@ void main() {
     expect(
       logger.params,
       const LogParams(
-        ResultsStatus.error,
+        .error,
         'unknown',
         error: 'Invalid pubspec.yaml file path: unknown/pubspec.yaml',
       ),
@@ -52,13 +49,9 @@ void main() {
 
       expect(
         logger.params,
-        const LogParams(
-          ResultsStatus.clear,
-          sourcePath,
-          message: 'Packages sorted.',
-        ),
+        const LogParams(.clear, sourcePath, message: 'Packages sorted.'),
       );
-      expect(builder.readFile, builder.readExpectedFile);
+      expect(builder.file.read, builder.expectedFile.read);
     });
   });
 
@@ -76,13 +69,9 @@ void main() {
 
       expect(
         logger.params,
-        const LogParams(
-          ResultsStatus.warning,
-          sourcePath,
-          message: 'No packages sorted.',
-        ),
+        const LogParams(.warning, sourcePath, message: 'No packages sorted.'),
       );
-      expect(builder.readFile, builder.readExpectedFile);
+      expect(builder.file.read, builder.expectedFile.read);
     });
 
     test('will not modify file', () async {

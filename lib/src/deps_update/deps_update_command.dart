@@ -24,11 +24,11 @@ class DepsUpdateCommand extends Command<int> {
 
   @override
   int run() => DepsUpdatePerformer(
-        lib.DepsUpdateParams(
-          path: argResults.path,
-          main: argResults.main,
-          dev: argResults.dev,
-        ),
-        jsonOutput: argResults.json,
-      ).performWithExit();
+    lib.DepsUpdateParams(
+      path: argResults.path,
+      main: argResults.main,
+      dev: argResults.dev,
+    ),
+    jsonOutput: argResults.json,
+  ).performWithExit();
 }

@@ -19,31 +19,25 @@ void main() {
     final argParser = tested.argParser;
 
     test('has all expected options', () {
-      expect(
-        argParser.options.keys,
-        const ['help', 'version'],
-      );
+      expect(argParser.options.keys, const ['help', 'version']);
     });
 
     test('has all expected commands', () {
-      expect(
-        argParser.commands.keys,
-        const [
-          'help',
-          'deps-add',
-          'da',
-          'deps-sort',
-          'ds',
-          'deps-unused',
-          'dun',
-          'deps-update',
-          'dup',
-          'deps-used',
-          'du',
-          'transitive-use',
-          'tu',
-        ],
-      );
+      expect(argParser.commands.keys, const [
+        'help',
+        'deps-add',
+        'da',
+        'deps-sort',
+        'ds',
+        'deps-unused',
+        'dun',
+        'deps-update',
+        'dup',
+        'deps-used',
+        'du',
+        'transitive-use',
+        'tu',
+      ]);
     });
 
     test('explodes on unknown flag', () {
@@ -61,26 +55,17 @@ void main() {
 
     group('help', () {
       test('not parsing -h when not provided', () {
-        expect(
-          argParser.parse(const {}).wasParsed('help'),
-          isFalse,
-        );
+        expect(argParser.parse(const {}).wasParsed('help'), isFalse);
       });
 
       test('parses -h', () {
-        expect(
-          argParser.parse(const {'-h'}).wasParsed('help'),
-          isTrue,
-        );
+        expect(argParser.parse(const {'-h'}).wasParsed('help'), isTrue);
       });
     });
 
     group('version', () {
       test('not parsing --version when not provided', () {
-        expect(
-          argParser.parse(const {}).wasParsed('version'),
-          isFalse,
-        );
+        expect(argParser.parse(const {}).wasParsed('version'), isFalse);
       });
 
       test('parses --version', () {

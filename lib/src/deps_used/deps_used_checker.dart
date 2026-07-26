@@ -1,7 +1,6 @@
 import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
 import 'package:dart_dependency_checker_cli/src/_logger/log_params.dart';
 import 'package:dart_dependency_checker_cli/src/_logger/results_logger.dart';
-import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
 import 'package:dart_dependency_checker_cli/src/_shared/performer_mixin.dart';
 
 class DepsUsedChecker extends lib.DepsUsedChecker with PerformerMixin {
@@ -23,17 +22,13 @@ class DepsUsedChecker extends lib.DepsUsedChecker with PerformerMixin {
       final results = super.perform();
 
       logParams = LogParams(
-        ResultsStatus.clear,
+        .clear,
         path,
         message: '${results.isEmpty ? 'No' : 'Some'} dependencies found.',
         results: results,
       );
     } on lib.PerformerError catch (e) {
-      logParams = LogParams(
-        ResultsStatus.error,
-        path,
-        error: e.message,
-      );
+      logParams = LogParams(.error, path, error: e.message);
     }
 
     return logger.logWithExit(logParams, jsonOutput);
