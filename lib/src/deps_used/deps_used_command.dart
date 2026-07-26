@@ -19,15 +19,15 @@ class DepsUsedCommand extends Command<int> {
   List<String> get aliases => const ['du'];
 
   @override
-  final description = 'Checks used dependencies via imports only.';
+  final description = 'Checks used dependencies via imports/exports only.';
 
   @override
   int run() => DepsUsedChecker(
-        lib.DepsUsedParams(
-          path: argResults.path,
-          mainIgnores: argResults.mainIgnores,
-          devIgnores: argResults.devIgnores,
-        ),
-        jsonOutput: argResults.json,
-      ).performWithExit();
+    lib.DepsUsedParams(
+      path: argResults.path,
+      mainIgnores: argResults.mainIgnores,
+      devIgnores: argResults.devIgnores,
+    ),
+    jsonOutput: argResults.json,
+  ).performWithExit();
 }

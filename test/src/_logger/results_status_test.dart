@@ -10,11 +10,10 @@ void main() {
     });
   });
 
-  const <ResultsStatus, int>{
-    ResultsStatus.clear: 0,
-    ResultsStatus.warning: 1,
-    ResultsStatus.error: 2,
-  }.forEach((status, exitCode) {
+  const <ResultsStatus, int>{.clear: 0, .warning: 1, .error: 2}.forEach((
+    status,
+    exitCode,
+  ) {
     test('$status maps to $exitCode exitCode', () {
       expect(status.exitCode, exitCode);
     });

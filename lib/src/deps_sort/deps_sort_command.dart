@@ -21,7 +21,7 @@ class DepsSortCommand extends Command<int> {
 
   @override
   int run() => DepsSortPerformer(
-        lib.DepsSortParams(path: argResults.path),
-        jsonOutput: argResults.json,
-      ).performWithExit();
+    lib.DepsSortParams(path: argResults.path),
+    jsonOutput: argResults.json,
+  ).performWithExit();
 }

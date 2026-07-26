@@ -13,20 +13,17 @@ abstract final class PlainLogger {
     final resultStatus = params.resultStatus;
 
     switch (resultStatus) {
-      case ResultsStatus.clear:
-      case ResultsStatus.warning:
+      case .clear:
+      case .warning:
         buffer
           ..writeln('Message: ${params.message}')
-          ..writeDependencies(
-            'Dependencies',
-            params.results?.mainDependencies,
-          )
+          ..writeDependencies('Dependencies', params.results?.mainDependencies)
           ..writeDependencies(
             'Dev Dependencies',
             params.results?.devDependencies,
           );
         break;
-      case ResultsStatus.error:
+      case .error:
         buffer.writeln('Error: ${params.error}');
         break;
     }
@@ -48,13 +45,13 @@ extension on StringBuffer {
 
 extension on ResultsStatus {
   void write(String message) => switch (this) {
-        ResultsStatus.error => stderr.write(_yaansi(message)),
-        _ => stdout.write(_yaansi(message)),
-      };
+    .error => stderr.write(_yaansi(message)),
+    _ => stdout.write(_yaansi(message)),
+  };
 
   String Function(String message) get _yaansi => switch (this) {
-        ResultsStatus.clear => green,
-        ResultsStatus.warning => yellow,
-        ResultsStatus.error => red,
-      };
+    .clear => green,
+    .warning => yellow,
+    .error => red,
+  };
 }

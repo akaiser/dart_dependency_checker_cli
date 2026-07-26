@@ -1,6 +1,5 @@
 import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
 import 'package:dart_dependency_checker_cli/src/_logger/log_params.dart';
-import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
 import 'package:dart_dependency_checker_cli/src/transitive_use/transitive_use_checker.dart';
 import 'package:test/test.dart';
 
@@ -13,11 +12,7 @@ void main() {
   setUp(() => logger = FakeResultsLogger());
 
   TransitiveUseChecker tested(lib.TransitiveUseParams params) =>
-      TransitiveUseChecker(
-        params,
-        jsonOutput: false,
-        logger: logger,
-      );
+      TransitiveUseChecker(params, jsonOutput: false, logger: logger);
 
   test('reports error on invalid pubspec.yaml path', () {
     tested(const lib.TransitiveUseParams(path: 'unknown')).performWithExit();
@@ -25,7 +20,7 @@ void main() {
     expect(
       logger.params,
       const LogParams(
-        ResultsStatus.error,
+        .error,
         'unknown',
         error: 'Invalid pubspec.yaml file path: unknown/pubspec.yaml',
       ),
@@ -33,13 +28,14 @@ void main() {
   });
 
   test('reports error on invalid pubspec.yaml content', () {
-    tested(const lib.TransitiveUseParams(path: emptyYamlPath))
-        .performWithExit();
+    tested(
+      const lib.TransitiveUseParams(path: emptyYamlPath),
+    ).performWithExit();
 
     expect(
       logger.params,
       const LogParams(
-        ResultsStatus.error,
+        .error,
         emptyYamlPath,
         error:
             'Invalid pubspec.yaml file contents in: $emptyYamlPath/pubspec.yaml',
@@ -56,11 +52,11 @@ void main() {
       expect(
         logger.params,
         const LogParams(
-          ResultsStatus.warning,
+          .warning,
           path,
           message: 'Found undeclared/transitive packages.',
           results: lib.TransitiveUseResults(
-            mainDependencies: {'equatable'},
+            mainDependencies: {'equatable', 'export_lib'},
             devDependencies: {'async', 'convert'},
           ),
         ),
@@ -78,11 +74,11 @@ void main() {
       expect(
         logger.params,
         const LogParams(
-          ResultsStatus.warning,
+          .warning,
           path,
           message: 'Found undeclared/transitive packages.',
           results: lib.TransitiveUseResults(
-            mainDependencies: {},
+            mainDependencies: {'export_lib'},
             devDependencies: {'async'},
           ),
         ),
@@ -97,11 +93,7 @@ void main() {
 
       expect(
         logger.params,
-        const LogParams(
-          ResultsStatus.clear,
-          path,
-          message: 'All clear!',
-        ),
+        const LogParams(.clear, path, message: 'All clear!'),
       );
     });
   });
@@ -114,11 +106,7 @@ void main() {
 
       expect(
         logger.params,
-        const LogParams(
-          ResultsStatus.clear,
-          path,
-          message: 'All clear!',
-        ),
+        const LogParams(.clear, path, message: 'All clear!'),
       );
     });
   });

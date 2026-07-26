@@ -11,11 +11,7 @@ void main() {
 
   test('log on ${ResultsStatus.clear}', () {
     JsonLogger.log(
-      const LogParams(
-        ResultsStatus.clear,
-        'any/path',
-        message: 'All clear!',
-      ),
+      const LogParams(.clear, 'any/path', message: 'All clear!'),
       buffer,
     );
 
@@ -28,7 +24,7 @@ void main() {
   test('log on ${ResultsStatus.warning}', () {
     JsonLogger.log(
       const LogParams(
-        ResultsStatus.warning,
+        .warning,
         'any/path',
         message: 'any message',
         results: lib.DepsUnusedResults(
@@ -47,11 +43,7 @@ void main() {
 
   test('log on ${ResultsStatus.error}', () {
     JsonLogger.log(
-      const LogParams(
-        ResultsStatus.error,
-        'any/path',
-        error: 'Explosion somewhere!',
-      ),
+      const LogParams(.error, 'any/path', error: 'Explosion somewhere!'),
       buffer,
     );
 

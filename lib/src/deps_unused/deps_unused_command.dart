@@ -25,12 +25,12 @@ class DepsUnusedCommand extends Command<int> {
 
   @override
   int run() => DepsUnusedChecker(
-        lib.DepsUnusedParams(
-          path: argResults.path,
-          mainIgnores: argResults.mainIgnores,
-          devIgnores: argResults.devIgnores,
-          fix: argResults.fix,
-        ),
-        jsonOutput: argResults.json,
-      ).performWithExit();
+    lib.DepsUnusedParams(
+      path: argResults.path,
+      mainIgnores: argResults.mainIgnores,
+      devIgnores: argResults.devIgnores,
+      fix: argResults.fix,
+    ),
+    jsonOutput: argResults.json,
+  ).performWithExit();
 }

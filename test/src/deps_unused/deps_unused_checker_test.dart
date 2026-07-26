@@ -1,6 +1,5 @@
 import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
 import 'package:dart_dependency_checker_cli/src/_logger/log_params.dart';
-import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
 import 'package:dart_dependency_checker_cli/src/deps_unused/deps_unused_checker.dart';
 import 'package:test/test.dart';
 
@@ -18,11 +17,8 @@ void main() {
     builder = FileArrangeBuilder();
   });
 
-  DepsUnusedChecker tested(lib.DepsUnusedParams params) => DepsUnusedChecker(
-        params,
-        jsonOutput: false,
-        logger: logger,
-      );
+  DepsUnusedChecker tested(lib.DepsUnusedParams params) =>
+      DepsUnusedChecker(params, jsonOutput: false, logger: logger);
 
   test('reports error on invalid pubspec.yaml path', () {
     tested(const lib.DepsUnusedParams(path: 'unknown')).performWithExit();
@@ -30,7 +26,7 @@ void main() {
     expect(
       logger.params,
       const LogParams(
-        ResultsStatus.error,
+        .error,
         'unknown',
         error: 'Invalid pubspec.yaml file path: unknown/pubspec.yaml',
       ),
@@ -43,7 +39,7 @@ void main() {
     expect(
       logger.params,
       const LogParams(
-        ResultsStatus.error,
+        .error,
         emptyYamlPath,
         error:
             'Invalid pubspec.yaml file contents in: $emptyYamlPath/pubspec.yaml',
@@ -60,7 +56,7 @@ void main() {
       expect(
         logger.params,
         const LogParams(
-          ResultsStatus.warning,
+          .warning,
           path,
           message: 'Found unused packages.',
           results: lib.DepsUnusedResults(
@@ -81,7 +77,7 @@ void main() {
       expect(
         logger.params,
         const LogParams(
-          ResultsStatus.warning,
+          .warning,
           path,
           message: 'Found unused packages.',
           results: lib.DepsUnusedResults(
@@ -101,11 +97,7 @@ void main() {
 
       expect(
         logger.params,
-        const LogParams(
-          ResultsStatus.clear,
-          path,
-          message: 'All clear!',
-        ),
+        const LogParams(.clear, path, message: 'All clear!'),
       );
     });
   });
@@ -119,7 +111,7 @@ void main() {
       expect(
         logger.params,
         const LogParams(
-          ResultsStatus.warning,
+          .warning,
           path,
           message: 'Found unused packages.',
           results: lib.DepsUnusedResults(
@@ -130,8 +122,7 @@ void main() {
       );
     });
 
-    test(
-        'passed ignores will not be reported '
+    test('passed ignores will not be reported '
         'even if no sources were found', () {
       const params = lib.DepsUnusedParams(
         path: path,
@@ -143,7 +134,7 @@ void main() {
       expect(
         logger.params,
         const LogParams(
-          ResultsStatus.warning,
+          .warning,
           path,
           message: 'Found unused packages.',
           results: lib.DepsUnusedResults(
@@ -166,7 +157,7 @@ void main() {
       test('cleanes source file', () {
         const params = lib.DepsUnusedParams(
           path: sourcePath,
-          mainIgnores: {'args', 'bla_support'},
+          mainIgnores: {'args', 'some_hosted_source', 'bla_support'},
           devIgnores: {
             'flutter_test',
             'bla_dart_lints',
@@ -181,7 +172,7 @@ void main() {
         expect(
           logger.params,
           const LogParams(
-            ResultsStatus.clear,
+            .clear,
             sourcePath,
             message: 'Removed unused packages.',
             results: lib.DepsUnusedResults(
@@ -190,7 +181,7 @@ void main() {
             ),
           ),
         );
-        expect(builder.readFile, builder.readExpectedFile);
+        expect(builder.file.read, builder.expectedFile.read);
       });
 
       test('leaves blank dependency sections', () {
@@ -204,8 +195,8 @@ void main() {
         tested(params).performWithExit();
 
         expect(
-          builder.readFile,
-          '$sourcePath/expected_empty_dependencies.yaml'.read,
+          builder.file.read,
+          '$sourcePath/expected_empty_dependencies.yaml'.file.read,
         );
       });
     });
@@ -227,13 +218,9 @@ void main() {
 
         expect(
           logger.params,
-          const LogParams(
-            ResultsStatus.clear,
-            sourcePath,
-            message: 'All clear!',
-          ),
+          const LogParams(.clear, sourcePath, message: 'All clear!'),
         );
-        expect(builder.readFile, builder.readExpectedFile);
+        expect(builder.file.read, builder.expectedFile.read);
       });
     });
   });

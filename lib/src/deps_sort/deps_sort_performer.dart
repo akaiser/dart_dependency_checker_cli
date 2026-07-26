@@ -1,7 +1,6 @@
 import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
 import 'package:dart_dependency_checker_cli/src/_logger/log_params.dart';
 import 'package:dart_dependency_checker_cli/src/_logger/results_logger.dart';
-import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
 import 'package:dart_dependency_checker_cli/src/_shared/performer_mixin.dart';
 
 class DepsSortPerformer extends lib.DepsSortPerformer with PerformerMixin {
@@ -23,16 +22,12 @@ class DepsSortPerformer extends lib.DepsSortPerformer with PerformerMixin {
       final result = super.perform();
 
       logParams = LogParams(
-        result ? ResultsStatus.clear : ResultsStatus.warning,
+        result ? .clear : .warning,
         path,
         message: result ? 'Packages sorted.' : 'No packages sorted.',
       );
     } on lib.PerformerError catch (e) {
-      logParams = LogParams(
-        ResultsStatus.error,
-        path,
-        error: e.message,
-      );
+      logParams = LogParams(.error, path, error: e.message);
     }
 
     return logger.logWithExit(logParams, jsonOutput);

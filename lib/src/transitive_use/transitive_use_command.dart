@@ -24,11 +24,11 @@ class TransitiveUseCommand extends Command<int> {
 
   @override
   int run() => TransitiveUseChecker(
-        lib.TransitiveUseParams(
-          path: argResults.path,
-          mainIgnores: argResults.mainIgnores,
-          devIgnores: argResults.devIgnores,
-        ),
-        jsonOutput: argResults.json,
-      ).performWithExit();
+    lib.TransitiveUseParams(
+      path: argResults.path,
+      mainIgnores: argResults.mainIgnores,
+      devIgnores: argResults.devIgnores,
+    ),
+    jsonOutput: argResults.json,
+  ).performWithExit();
 }

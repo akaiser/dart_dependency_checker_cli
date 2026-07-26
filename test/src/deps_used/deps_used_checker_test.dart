@@ -1,6 +1,5 @@
 import 'package:dart_dependency_checker/dart_dependency_checker.dart' as lib;
 import 'package:dart_dependency_checker_cli/src/_logger/log_params.dart';
-import 'package:dart_dependency_checker_cli/src/_logger/results_status.dart';
 import 'package:dart_dependency_checker_cli/src/deps_used/deps_used_checker.dart';
 import 'package:test/test.dart';
 
@@ -12,11 +11,8 @@ void main() {
 
   setUp(() => logger = FakeResultsLogger());
 
-  DepsUsedChecker tested(lib.DepsUsedParams params) => DepsUsedChecker(
-        params,
-        jsonOutput: false,
-        logger: logger,
-      );
+  DepsUsedChecker tested(lib.DepsUsedParams params) =>
+      DepsUsedChecker(params, jsonOutput: false, logger: logger);
 
   test('reports error on invalid pubspec.yaml path', () {
     tested(const lib.DepsUsedParams(path: 'unknown')).performWithExit();
@@ -24,7 +20,7 @@ void main() {
     expect(
       logger.params,
       const LogParams(
-        ResultsStatus.error,
+        .error,
         'unknown',
         error: 'Invalid pubspec.yaml file path: unknown/pubspec.yaml',
       ),
@@ -37,7 +33,7 @@ void main() {
     expect(
       logger.params,
       const LogParams(
-        ResultsStatus.error,
+        .error,
         emptyYamlPath,
         error:
             'Invalid pubspec.yaml file contents in: $emptyYamlPath/pubspec.yaml',
@@ -54,7 +50,7 @@ void main() {
       expect(
         logger.params,
         const LogParams(
-          ResultsStatus.clear,
+          .clear,
           path,
           message: 'No dependencies found.',
           results: lib.DepsUsedResults(
@@ -75,11 +71,11 @@ void main() {
       expect(
         logger.params,
         const LogParams(
-          ResultsStatus.clear,
+          .clear,
           path,
           message: 'Some dependencies found.',
           results: lib.DepsUsedResults(
-            mainDependencies: {'args', 'equatable'},
+            mainDependencies: {'args', 'equatable', 'export_lib'},
             devDependencies: {'async', 'convert', 'test'},
           ),
         ),
@@ -89,20 +85,20 @@ void main() {
     test('passed ignores will not be reported', () {
       const params = lib.DepsUsedParams(
         path: path,
-        mainIgnores: {'equatable'},
-        devIgnores: {'convert'},
+        mainIgnores: {'args', 'equatable'},
+        devIgnores: {'async', 'convert'},
       );
       tested(params).performWithExit();
 
       expect(
         logger.params,
         const LogParams(
-          ResultsStatus.clear,
+          .clear,
           path,
           message: 'Some dependencies found.',
           results: lib.DepsUsedResults(
-            mainDependencies: {'args'},
-            devDependencies: {'async', 'test'},
+            mainDependencies: {'export_lib'},
+            devDependencies: {'test'},
           ),
         ),
       );

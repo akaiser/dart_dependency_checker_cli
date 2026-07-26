@@ -3,6 +3,7 @@ name: testing
 dependencies:
   args: ^2.4.2
   meta: ^1.11.0
+  export_lib: ^0.0.3
 
 dev_dependencies:
   integration_test:
